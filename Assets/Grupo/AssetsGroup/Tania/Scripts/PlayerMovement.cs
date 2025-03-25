@@ -2,77 +2,98 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveDistance = 1f;  // Distancia de cada paso
-    public float moveSpeed = 5f;     // Velocidad del movimiento
+    private Rigidbody rb; // Referencia al Rigidbody del jugador
+    private Vector3 targetPosition; // Posición objetivo a la que se moverá el jugador
+    private Vector3 spawnPoint; // Punto de reaparición si el jugador cae al agua
+    private Vector3 currentPosition; // Posición actual del jugador
+    private Vector3 lastPlatformPosition; // Guarda la última posición de la plataforma para calcular su movimiento
 
-    private Rigidbody rb;            // Referencia al Rigidbody del jugador
-    private Vector3 targetPosition;  // Posición a la que queremos movernos
-    private Vector3 spawnPoint;      // Posición inicial
-    private bool isMoving = false;   // Variable para evitar moverse hasta terminar el movimiento anterior
+    public float moveDistance = 1f; // Distancia de cada paso
+    public float moveSpeed = 5f; // Velocidad de movimiento del jugador
+
+    private bool isMoving = false; // Indica si el jugador está en movimiento
+    [SerializeField] private bool inPlatform = false; // Indica si el jugador está sobre una plataforma
+
+    private GameObject currentPlatform; // Referencia a la plataforma en la que se encuentra el jugador
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); // Obtener el Rigidbody del jugador
-        targetPosition = transform.position; // Inicializar la posición objetivo
-        spawnPoint = transform.position; //Guardar la Posición inicial
+        rb = GetComponent<Rigidbody>(); // Obtiene el componente Rigidbody
+        targetPosition = transform.position; // Inicializa la posición objetivo con la posición inicial
+        spawnPoint = transform.position; // Guarda la posición inicial como punto de reaparición
+        currentPosition = transform.position; // Inicializa la posición actual con la posición inicial
     }
 
     void Update()
     {
-        // Solo permitir movimiento si no estamos ya en medio de un desplazamiento
+        // Si no está en movimiento, permite que el jugador se mueva en la dirección deseada
         if (!isMoving)
         {
-            if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.forward); // Mover adelante
-            if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.back);    // Mover atrás
-            if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left);    // Mover izquierda
-            if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right);   // Mover derecha
+            if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.forward); // Mover hacia adelante
+            if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.back); // Mover hacia atrás
+            if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left); // Mover hacia la izquierda
+            if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right); // Mover hacia la derecha
         }
     }
 
     void FixedUpdate()
     {
-        // Si estamos en movimiento, actualizar la posición con MovePosition()
+        // Si el jugador está en movimiento, lo mueve progresivamente hasta la posición deseada
         if (isMoving)
         {
-            rb.MovePosition(Vector3.MoveTowards(rb.position, targetPosition, moveSpeed * Time.fixedDeltaTime));
+            rb.MovePosition(Vector3.MoveTowards(rb.position, currentPosition, moveSpeed * Time.fixedDeltaTime));
 
-            // Si el jugador ha llegado al destino, detener el movimiento
-            if (Vector3.Distance(rb.position, targetPosition) < 0.01f)
+            // Si el jugador ha alcanzado la posición objetivo, detiene el movimiento
+            if (Vector3.Distance(rb.position, currentPosition) < 0.01f)
             {
-                rb.position = targetPosition; // Ajustar la posición para evitar errores de precisión
-                isMoving = false; // Permitir el siguiente movimiento
+                rb.position = currentPosition; // Ajusta la posición final
+                isMoving = false; // Detiene el movimiento
             }
+        }
+
+        // Si el jugador está sobre una plataforma, debe seguir su movimiento
+        if (inPlatform && currentPlatform != null)
+        {
+            Vector3 platformMovement = currentPlatform.transform.position - lastPlatformPosition; // Calcula el movimiento de la plataforma
+            currentPosition += platformMovement; // Ajusta la posición del jugador en base al desplazamiento de la plataforma
+            rb.MovePosition(currentPosition); // Aplica el movimiento ajustado al jugador
+            lastPlatformPosition = currentPlatform.transform.position; // Actualiza la última posición de la plataforma
         }
     }
 
     void Move(Vector3 direction)
     {
-        // Cambia la posición objetivo en la dirección deseada
-        targetPosition += direction * moveDistance;
-        isMoving = true; // Marcar que el jugador está en movimiento
+        targetPosition = direction * moveDistance; // Calcula la nueva posición objetivo con la distancia de movimiento
+        currentPosition += targetPosition; // Actualiza la posición actual sumando el desplazamiento
+        isMoving = true; // Activa el estado de movimiento
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
+        // Si el jugador colisiona con el agua, lo reinicia en su punto de reaparición
         if (collision.gameObject.name == "water")
         {
             transform.position = spawnPoint;
-            targetPosition = transform.position;
+            targetPosition = Vector3.zero;
+            currentPosition = spawnPoint;
         }
 
-        if (collision.gameObject.name == "wood(Clone)")
+        // Si el jugador está sobre una plataforma, lo asocia a ella
+        if (collision.gameObject.CompareTag("Platform"))
         {
-            gameObject.transform.SetParent(collision.transform, true);
+            inPlatform = true;
+            currentPlatform = collision.gameObject;
+            lastPlatformPosition = currentPlatform.transform.position; // Guarda la posición inicial de la plataforma
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.name == "wood(Clone)")
+        // Si el jugador deja de estar sobre la plataforma, lo desvincula de ella
+        if (collision.gameObject.CompareTag("Platform"))
         {
-            gameObject.transform.SetParent(null); // Deja de ser hijo del tronco
+            inPlatform = false;
+            currentPlatform = null;
         }
     }
-
-
 }
