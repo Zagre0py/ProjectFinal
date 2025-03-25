@@ -100,7 +100,7 @@ public class PhysicsMovement : MonoBehaviour
     }
 
     //Esto nos comunica cuando colisiona con un objeto que tenga el tag "Floor"
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag("Floor"))
         {
