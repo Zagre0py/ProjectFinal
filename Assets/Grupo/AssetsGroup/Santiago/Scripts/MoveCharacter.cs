@@ -11,17 +11,19 @@ public class MoveCharacter : MonoBehaviour
     public float rotationSpeed = 10f; // Velocidad de rotación
 
     private Rigidbody rb;
+    private Animator animator;
     private bool isGrounded;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        // Verificar si el personaje está en el suelo
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundMask);
+        
+        Isgrounded();
 
         // Obtener la entrada del jugador
         float moveX = Input.GetAxis("Horizontal");
@@ -30,6 +32,7 @@ public class MoveCharacter : MonoBehaviour
         // Mover al personaje en la dirección deseada
         Vector3 move = new Vector3(moveX, 0f, moveZ).normalized;
         Vector3 moveVelocity = move * moveSpeed;
+        animator.SetBool("Movimiento", true);
 
         // Aplicar movimiento al Rigidbody
         rb.velocity = new Vector3(moveVelocity.x, rb.velocity.y, moveVelocity.z);
@@ -40,11 +43,23 @@ public class MoveCharacter : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
+        Jump();
+    }
 
-        // Saltar
+        private void Jump(){
+
+            // Saltar
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
+            
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+        
+    }
+    private void Isgrounded(){
+
+        // Verificar si el personaje está en el suelo
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, groundMask);
+        animator.SetBool("IsGrounded", true);
     }
 }
