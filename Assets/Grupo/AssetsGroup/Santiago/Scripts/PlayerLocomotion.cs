@@ -13,6 +13,11 @@ namespace SG
 
         [HideInInspector]
         public Transform myTransform;
+        [HideInInspector]
+        public AnimatorHandle animatorHandler;
+
+
+
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
@@ -26,8 +31,30 @@ namespace SG
         {
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
+            animatorHandler = GetComponentInChildren<AnimatorHandle>();
             cameraObject = Camera.main.transform;
             myTransform = transform;
+            animatorHandler.Initialize();
+        }
+        private void Update() {
+            float delta = Time.deltaTime;
+            inputHandler.TickInput(delta);
+            moveDirection = cameraObject.forward * inputHandler.vertical;
+            moveDirection += cameraObject.right * inputHandler.horizontal;
+            moveDirection.Normalize();
+
+            float speed = movementSpeed;
+            moveDirection *= speed;
+
+            Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
+            rigidbody.velocity = projectedVelocity;
+
+            animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
+
+            if (animatorHandler.canRotate){
+
+                HandleRotation(delta);
+            }
         }
         
         #region Movement
