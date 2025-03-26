@@ -71,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionStay(Collision collision)
     {
         // Si el jugador colisiona con el agua, lo reinicia en su punto de reaparición
-        if (collision.gameObject.name == "water")
+        if (collision.gameObject.name == "water" || collision.gameObject.name == "Car(Clone)")
         {
             transform.position = spawnPoint;
             targetPosition = Vector3.zero;

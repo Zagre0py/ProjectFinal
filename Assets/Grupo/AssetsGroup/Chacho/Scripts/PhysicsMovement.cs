@@ -8,7 +8,7 @@ public class PhysicsMovement : MonoBehaviour
     public float rotationSpeed = 10f;
     public float jumpForce = 7f;
     [SerializeField] private Rigidbody playerRigidbody;
-    [SerializeField] private Animator playerAnimControl;
+    //[SerializeField] private Animator playerAnimControl;
     private Vector3 moveDirection;
     public bool isGrounded;
 
@@ -18,7 +18,7 @@ public class PhysicsMovement : MonoBehaviour
     void Start()
     {
         playerRigidbody = GetComponent<Rigidbody>();
-        playerAnimControl = GetComponent<Animator>();
+        //playerAnimControl = GetComponent<Animator>();
 
         if (cameraTransform == null)
         {
@@ -66,25 +66,25 @@ public class PhysicsMovement : MonoBehaviour
         moveDirection = (forward * vertical + right * horizontal).normalized;
 
         //Animaciones
-        
+
         if (Input.GetButtonDown("Jump") && isGrounded == true)
         {
             ApplyJump();
-            playerAnimControl.SetBool("isJumping", true);
+            //playerAnimControl.SetBool("isJumping", true);
         }
-        else if (isGrounded)
-        {
-            playerAnimControl.SetBool("isJumping", false);
-        }
+        //else if (isGrounded)
+        //{
+        //    playerAnimControl.SetBool("isJumping", false);
+        //}
 
-        if (moveDirection != Vector3.zero && isGrounded)
-        {
-            playerAnimControl.SetBool("isRunning", true);
-        }
-        else
-        {
-            playerAnimControl.SetBool("isRunning", false);
-        }
+        //if (moveDirection != Vector3.zero && isGrounded)
+        //{
+        //    playerAnimControl.SetBool("isRunning", true);
+        //}
+        //else
+        //{
+        //    playerAnimControl.SetBool("isRunning", false);
+        //}
     }
 
     void ApplyPhysicsMovement()
@@ -100,12 +100,12 @@ public class PhysicsMovement : MonoBehaviour
     }
 
     //Esto nos comunica cuando colisiona con un objeto que tenga el tag "Floor"
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag("Floor"))
         {
             isGrounded = true;
-            playerAnimControl.SetBool("isGrounded", isGrounded);
+            //playerAnimControl.SetBool("isGrounded", isGrounded);
         }
     }
 
