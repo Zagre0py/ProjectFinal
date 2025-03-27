@@ -8,6 +8,8 @@ public class PlayerManager : MonoBehaviour
 {
    InputHandler inputHandler;
    Animator anim;
+   public bool canDoCombo;
+   public bool isInteracting;
 
     void Start()
     {
@@ -15,10 +17,13 @@ public class PlayerManager : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
     }
 
-    void Update()
+     void Update()
     {
         inputHandler.isInteracting = anim.GetBool("isInteracting");
+        canDoCombo = anim.GetBool("canDoCombo");
         inputHandler.rollflag = false;
-    }
+        inputHandler.rb_Input = false;
+        inputHandler.rt_Input = false;
+    } 
 }
 }

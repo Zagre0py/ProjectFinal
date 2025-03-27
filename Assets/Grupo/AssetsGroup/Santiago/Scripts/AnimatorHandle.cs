@@ -88,7 +88,18 @@ namespace SG{
 
         public void StopRotation(){
 
+
             canRotate = false;
+        }
+
+        public void EnableCombo()
+        {
+            anim.SetBool("canDoCombo", true);
+        }
+
+        public void DisableCombo()
+        {
+            anim.SetBool("canDoCombo", false);
         }
         public void PlayTargetAnimation(string targetAnim, bool isInteracting)
     {

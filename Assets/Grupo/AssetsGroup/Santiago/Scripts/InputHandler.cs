@@ -15,6 +15,7 @@ namespace SG
         // [Header("Action Inputs")]
         public bool b_Input;
         public bool rollflag;
+        public bool comboFlag;
         public bool isInteracting;
         public bool rb_Input;
         public bool rt_Input;
@@ -22,6 +23,7 @@ namespace SG
         private PlayerControls inputActions;
         private PlayerAttacker playerAttacker;
         private PlayerInventory playerInventory;
+        PlayerManager playerManager;
         private Vector2 movementInput;
         private Vector2 cameraInput;
 
@@ -29,6 +31,8 @@ namespace SG
         {
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
+            playerManager = GetComponent<PlayerManager>();
+
         }
 
         public void OnEnable()
@@ -50,7 +54,7 @@ namespace SG
         {
             MoveInput(delta);
             HandleRollInput(delta);
-            // HandleAttackInput(delta);
+            HandleAttackInput(delta);
         }
 
         private void MoveInput(float delta)
@@ -76,7 +80,28 @@ namespace SG
 
             if (rb_Input)
             {
-                playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                if (playerManager.canDoCombo)
+                {
+
+                    comboFlag = true;
+
+                    playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
+                    comboFlag = false;
+                }
+                else
+                {
+                    if (playerManager.isInteracting)
+                    {
+                        return;
+                    }
+
+                    if (playerManager.canDoCombo)
+                    {
+                        return;
+                    }
+                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+                }
+
             }
 
             if (rt_Input)
