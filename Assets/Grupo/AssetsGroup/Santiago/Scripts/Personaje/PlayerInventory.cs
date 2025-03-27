@@ -9,7 +9,7 @@ namespace SG
         WeaponSlotManager weaponSlotManager;
 
         public WeaponItem rightWeapon;
-        public WeaponItem leftWeapon;
+       // public WeaponItem leftWeapon;
 
         private void Awake()
         {
@@ -19,7 +19,7 @@ namespace SG
         private void Start()
         {
             weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
-            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
+           // weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
         }
     }
 }
