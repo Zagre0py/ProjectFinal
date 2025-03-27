@@ -114,6 +114,85 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PLayer Actions"",
+            ""id"": ""bd7be67d-0a95-4f4a-977a-406786b9adbd"",
+            ""actions"": [
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""20c0dd70-cd41-481b-ab4f-0eae99fa24ae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RB"",
+                    ""type"": ""Button"",
+                    ""id"": ""844536d3-e67c-426f-a5e6-e3b3e125f643"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RT"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c4d940d-a78a-4641-8172-d3bc28b39fae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3455526b-6eb6-4012-9c39-3cd8c5f184a5"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0fb37c36-0704-45ca-9b42-eac43c8f0c20"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2442d5f2-9f8e-4274-a8fe-f4103d3f8ed2"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f044ddf1-6c68-40b7-b7a2-cad1ef7e3f38"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Roll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -122,11 +201,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerMovement = asset.FindActionMap("Player Movement", throwIfNotFound: true);
         m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
         m_PlayerMovement_Camera = m_PlayerMovement.FindAction("Camera", throwIfNotFound: true);
+        // PLayer Actions
+        m_PLayerActions = asset.FindActionMap("PLayer Actions", throwIfNotFound: true);
+        m_PLayerActions_Roll = m_PLayerActions.FindAction("Roll", throwIfNotFound: true);
+        m_PLayerActions_RB = m_PLayerActions.FindAction("RB", throwIfNotFound: true);
+        m_PLayerActions_RT = m_PLayerActions.FindAction("RT", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
     {
         UnityEngine.Debug.Assert(!m_PlayerMovement.enabled, "This will cause a leak and performance issues, PlayerControls.PlayerMovement.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_PLayerActions.enabled, "This will cause a leak and performance issues, PlayerControls.PLayerActions.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -238,9 +323,77 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
+
+    // PLayer Actions
+    private readonly InputActionMap m_PLayerActions;
+    private List<IPLayerActionsActions> m_PLayerActionsActionsCallbackInterfaces = new List<IPLayerActionsActions>();
+    private readonly InputAction m_PLayerActions_Roll;
+    private readonly InputAction m_PLayerActions_RB;
+    private readonly InputAction m_PLayerActions_RT;
+    public struct PLayerActionsActions
+    {
+        private @PlayerControls m_Wrapper;
+        public PLayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Roll => m_Wrapper.m_PLayerActions_Roll;
+        public InputAction @RB => m_Wrapper.m_PLayerActions_RB;
+        public InputAction @RT => m_Wrapper.m_PLayerActions_RT;
+        public InputActionMap Get() { return m_Wrapper.m_PLayerActions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PLayerActionsActions set) { return set.Get(); }
+        public void AddCallbacks(IPLayerActionsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PLayerActionsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PLayerActionsActionsCallbackInterfaces.Add(instance);
+            @Roll.started += instance.OnRoll;
+            @Roll.performed += instance.OnRoll;
+            @Roll.canceled += instance.OnRoll;
+            @RB.started += instance.OnRB;
+            @RB.performed += instance.OnRB;
+            @RB.canceled += instance.OnRB;
+            @RT.started += instance.OnRT;
+            @RT.performed += instance.OnRT;
+            @RT.canceled += instance.OnRT;
+        }
+
+        private void UnregisterCallbacks(IPLayerActionsActions instance)
+        {
+            @Roll.started -= instance.OnRoll;
+            @Roll.performed -= instance.OnRoll;
+            @Roll.canceled -= instance.OnRoll;
+            @RB.started -= instance.OnRB;
+            @RB.performed -= instance.OnRB;
+            @RB.canceled -= instance.OnRB;
+            @RT.started -= instance.OnRT;
+            @RT.performed -= instance.OnRT;
+            @RT.canceled -= instance.OnRT;
+        }
+
+        public void RemoveCallbacks(IPLayerActionsActions instance)
+        {
+            if (m_Wrapper.m_PLayerActionsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPLayerActionsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PLayerActionsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PLayerActionsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PLayerActionsActions @PLayerActions => new PLayerActionsActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+    }
+    public interface IPLayerActionsActions
+    {
+        void OnRoll(InputAction.CallbackContext context);
+        void OnRB(InputAction.CallbackContext context);
+        void OnRT(InputAction.CallbackContext context);
     }
 }

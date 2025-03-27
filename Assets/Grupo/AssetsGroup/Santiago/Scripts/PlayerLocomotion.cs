@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
 namespace SG
 {
@@ -36,9 +37,22 @@ namespace SG
             myTransform = transform;
             animatorHandler.Initialize();
         }
-        private void Update() {
+        private void Update()
+        {
             float delta = Time.deltaTime;
             inputHandler.TickInput(delta);
+            //HandleRollingAndSprinting(delta);
+            HandleMovement(delta);
+
+        }
+
+        #region Movement
+        Vector3 normalVector;
+        Vector3 targetPosition;
+
+        public void HandleMovement(float delta)
+        {
+
             moveDirection = cameraObject.forward * inputHandler.vertical;
             moveDirection += cameraObject.right * inputHandler.horizontal;
             moveDirection.Normalize();
@@ -51,16 +65,13 @@ namespace SG
 
             animatorHandler.UpdateAnimatorValues(inputHandler.moveAmount, 0);
 
-            if (animatorHandler.canRotate){
+            if (animatorHandler.canRotate)
+            {
 
                 HandleRotation(delta);
             }
         }
-        
-        #region Movement
-        Vector3 normalVector;
-        Vector3 targetPosition;
-    
+
         private void HandleRotation(float delta)
         {
             Vector3 targetDir = Vector3.zero;
@@ -71,7 +82,7 @@ namespace SG
             targetDir.Normalize();
             targetDir.y = 0;
 
-            if(targetDir == Vector3.zero)
+            if (targetDir == Vector3.zero)
                 targetDir = myTransform.forward;
 
             float rs = rotationSpeed;
@@ -80,6 +91,48 @@ namespace SG
             Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
             myTransform.rotation = targetRotation;
         }
+
+        private void HandleRollingAndSprinting(float delta)
+{
+    if (animatorHandler.anim.GetBool("isInteracting"))
+        return;
+
+    if(inputHandler.rollflag)
+    {
+        // Resetear el flag inmediatamente
+        inputHandler.rollflag = false;
+        
+        // Calcular dirección
+        moveDirection = cameraObject.forward * inputHandler.vertical;
+        moveDirection += cameraObject.right * inputHandler.horizontal;
+        
+        if(inputHandler.moveAmount > 0.1f) // Usar un umbral pequeño
+        {
+            animatorHandler.PlayTargetAnimation("Rolling", true);
+            moveDirection.y = 0;
+            
+            // Normalizar y suavizar la rotación
+            if(moveDirection != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                myTransform.rotation = Quaternion.Slerp(
+                    myTransform.rotation,
+                    targetRotation,
+                    rotationSpeed * delta * 10f // Rotación más rápida para el roll
+                );
+            }
+            
+            // Aplicar movimiento durante el roll
+            float rollSpeed = movementSpeed * 1.5f;
+            Vector3 rollVelocity = moveDirection.normalized * rollSpeed;
+            rigidbody.velocity = new Vector3(rollVelocity.x, rigidbody.velocity.y, rollVelocity.z);
+        }
+        else
+        {
+            animatorHandler.PlayTargetAnimation("BackStep", true);
+        }
+    }
+}
         #endregion
     }
 }

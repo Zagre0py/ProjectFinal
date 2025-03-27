@@ -43,17 +43,6 @@ public class MoveCharacter : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(move, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
-        Jump();
-    }
-
-        private void Jump(){
-
-            // Saltar
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
         
     }
     private void Isgrounded(){
