@@ -11,9 +11,12 @@ public class PlayerMovement : MonoBehaviour
     public float moveDistance = 1f;
     public float moveSpeed = 5f;
 
-    private bool isMoving = false;
-    private bool inPlatform = false;
-    private bool inFloor = false;
+    [SerializeField] private bool isMoving = false;
+    [SerializeField] private bool inPlatform = false;
+    [SerializeField] private bool inFloor = false;
+    [SerializeField] private bool onLimit = false;
+
+
 
     private GameObject currentPlatform;
 
@@ -42,8 +45,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.MovePosition(Vector3.MoveTowards(rb.position, currentPosition, moveSpeed * Time.fixedDeltaTime));
 
-            if (Vector3.Distance(rb.position, currentPosition) < 0.01f)
+            // Si está lo suficientemente cerca, ajusta la posición exacta y detiene el movimiento
+            if (Vector3.Distance(rb.position, currentPosition) < 0.05f)
             {
+                rb.position = currentPosition; // Fija la posición exacta
                 isMoving = false;
             }
         }
@@ -75,6 +80,22 @@ public class PlayerMovement : MonoBehaviour
         {
             inFloor = true;
         }
+        if (collision.gameObject.CompareTag("Limit"))
+        {
+            isMoving = false;
+
+            // Asegurar que el Rigidbody no sea kinematic
+            if (rb.isKinematic) return;
+
+            // Obtener la dirección opuesta al contacto
+            Vector3 pushDirection = (transform.position - collision.contacts[0].point).normalized;
+
+            // Aplicar fuerza en la dirección opuesta
+            float pushForce = 30f; // Aumenta el valor si el empuje es muy débil
+            rb.velocity = Vector3.zero; // Resetear la velocidad antes de aplicar la fuerza
+            rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+        }
+
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             transform.position = spawnPoint;
@@ -102,5 +123,6 @@ public class PlayerMovement : MonoBehaviour
         {
             inFloor = false;
         }
+
     }
 }

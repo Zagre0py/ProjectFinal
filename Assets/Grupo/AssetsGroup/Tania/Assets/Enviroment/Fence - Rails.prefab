@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7288324781067561236}
   m_Layer: 0
   m_Name: Fence - Rails
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
