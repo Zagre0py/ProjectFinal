@@ -2,98 +2,127 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody rb; // Referencia al Rigidbody del jugador
-    private Vector3 targetPosition; // Posición objetivo a la que se moverá el jugador
-    private Vector3 spawnPoint; // Punto de reaparición si el jugador cae al agua
-    private Vector3 currentPosition; // Posición actual del jugador
-    private Vector3 lastPlatformPosition; // Guarda la última posición de la plataforma para calcular su movimiento
+    private Rigidbody rb;
+    private Vector3 targetPosition;
+    private Vector3 spawnPoint;
+    private Vector3 currentPosition;
+    private Vector3 lastPlatformPosition;
 
-    public float moveDistance = 1f; // Distancia de cada paso
-    public float moveSpeed = 5f; // Velocidad de movimiento del jugador
+    public float moveDistance = 1f;
+    public float moveSpeed = 5f;
 
-    private bool isMoving = false; // Indica si el jugador está en movimiento
-    [SerializeField] private bool inPlatform = false; // Indica si el jugador está sobre una plataforma
+    [SerializeField] private bool isMoving = false;
+    [SerializeField] private bool inPlatform = false;
+    [SerializeField] private bool inFloor = false;
+    [SerializeField] private bool onLimit = false;
 
-    private GameObject currentPlatform; // Referencia a la plataforma en la que se encuentra el jugador
+
+
+    private GameObject currentPlatform;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>(); // Obtiene el componente Rigidbody
-        targetPosition = transform.position; // Inicializa la posición objetivo con la posición inicial
-        spawnPoint = transform.position; // Guarda la posición inicial como punto de reaparición
-        currentPosition = transform.position; // Inicializa la posición actual con la posición inicial
+        rb = GetComponent<Rigidbody>();
+        targetPosition = transform.position;
+        spawnPoint = transform.position;
+        currentPosition = transform.position;
     }
 
     void Update()
     {
-        // Si no está en movimiento, permite que el jugador se mueva en la dirección deseada
-        if (!isMoving)
+        if (!isMoving && (inPlatform || inFloor))
         {
-            if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.forward); // Mover hacia adelante
-            if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.back); // Mover hacia atrás
-            if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left); // Mover hacia la izquierda
-            if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right); // Mover hacia la derecha
+            if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.forward);
+            if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.back);
+            if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left);
+            if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right);
         }
     }
 
     void FixedUpdate()
     {
-        // Si el jugador está en movimiento, lo mueve progresivamente hasta la posición deseada
         if (isMoving)
         {
             rb.MovePosition(Vector3.MoveTowards(rb.position, currentPosition, moveSpeed * Time.fixedDeltaTime));
 
-            // Si el jugador ha alcanzado la posición objetivo, detiene el movimiento
-            if (Vector3.Distance(rb.position, currentPosition) < 0.01f)
+            // Si está lo suficientemente cerca, ajusta la posición exacta y detiene el movimiento
+            if (Vector3.Distance(rb.position, currentPosition) < 0.05f)
             {
-                rb.position = currentPosition; // Ajusta la posición final
-                isMoving = false; // Detiene el movimiento
+                rb.position = currentPosition; // Fija la posición exacta
+                isMoving = false;
             }
         }
 
-        // Si el jugador está sobre una plataforma, debe seguir su movimiento
         if (inPlatform && currentPlatform != null)
         {
-            Vector3 platformMovement = currentPlatform.transform.position - lastPlatformPosition; // Calcula el movimiento de la plataforma
-            currentPosition += platformMovement; // Ajusta la posición del jugador en base al desplazamiento de la plataforma
-            rb.MovePosition(currentPosition); // Aplica el movimiento ajustado al jugador
-            lastPlatformPosition = currentPlatform.transform.position; // Actualiza la última posición de la plataforma
+            Vector3 platformMovement = currentPlatform.transform.position - lastPlatformPosition;
+            currentPosition += platformMovement;
+            rb.MovePosition(currentPosition);
+            lastPlatformPosition = currentPlatform.transform.position;
         }
     }
 
     void Move(Vector3 direction)
     {
-        targetPosition = direction * moveDistance; // Calcula la nueva posición objetivo con la distancia de movimiento
-        currentPosition += targetPosition; // Actualiza la posición actual sumando el desplazamiento
-        isMoving = true; // Activa el estado de movimiento
+        if (isMoving) return; // Evita iniciar un nuevo movimiento mientras el jugador se está moviendo
+
+        currentPosition = rb.position + direction * moveDistance;
+        isMoving = true;
+
+        // Si se mueve, se desvincula de la plataforma
+        inPlatform = false;
+        currentPlatform = null;
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        // Si el jugador colisiona con el agua, lo reinicia en su punto de reaparición
-        if (collision.gameObject.name == "water" || collision.gameObject.name == "Car(Clone)")
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            inFloor = true;
+        }
+        if (collision.gameObject.CompareTag("Limit"))
+        {
+            isMoving = false;
+
+            // Asegurar que el Rigidbody no sea kinematic
+            if (rb.isKinematic) return;
+
+            // Obtener la dirección opuesta al contacto
+            Vector3 pushDirection = (transform.position - collision.contacts[0].point).normalized;
+
+            // Aplicar fuerza en la dirección opuesta
+            float pushForce = 30f; // Aumenta el valor si el empuje es muy débil
+            rb.velocity = Vector3.zero; // Resetear la velocidad antes de aplicar la fuerza
+            rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+        }
+
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
             transform.position = spawnPoint;
             targetPosition = Vector3.zero;
             currentPosition = spawnPoint;
         }
 
-        // Si el jugador está sobre una plataforma, lo asocia a ella
         if (collision.gameObject.CompareTag("Platform"))
         {
             inPlatform = true;
             currentPlatform = collision.gameObject;
-            lastPlatformPosition = currentPlatform.transform.position; // Guarda la posición inicial de la plataforma
+            lastPlatformPosition = currentPlatform.transform.position;
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        // Si el jugador deja de estar sobre la plataforma, lo desvincula de ella
         if (collision.gameObject.CompareTag("Platform"))
         {
             inPlatform = false;
             currentPlatform = null;
         }
+
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            inFloor = false;
+        }
+
     }
 }

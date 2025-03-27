@@ -12,6 +12,7 @@ public class ObstacleMovement : MonoBehaviour
         if (direction == 1)
         {
             transform.position += transform.right * speed * Time.deltaTime; // Se mueve hacia la derecha
+
         }
         else if (direction == 2)
         {
