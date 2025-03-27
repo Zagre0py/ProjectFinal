@@ -688,7 +688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fec7a12ab082ea24fabf3ba8ee9a08cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastAttack: 
 --- !u!114 &1955507219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,6 +715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canDoCombo: 0
+  isInteracting: 0
 --- !u!1 &45842890523529126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1545,8 +1545,7 @@ Animator:
     by Humanoid clips.\n\tTransform 'root'\n\tTransform 'lowerarm_l'\n\tTransform
     'root'\n\tTransform 'neck_01'\n\tTransform 'clavicle_l'\n\tTransform 'ring_02_l'\n\tTransform
     'hand_l'\n\tTransform 'middle_01_l'\n\tTransform 'ring_01_r'\n\tTransform 'spine_02'\n\tand
-    more ...\n\tFrom animation clip 'Idle'\n\tFrom animation clip 'Walk'\n\tFrom
-    animation clip 'Run'\n\tFrom animation clip 'Rolling'"
+    more ...\n\tFrom animation clip 'Rolling'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
