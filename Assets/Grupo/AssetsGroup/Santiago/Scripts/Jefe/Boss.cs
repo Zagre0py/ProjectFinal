@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -40,7 +39,7 @@ public class Boss : MonoBehaviour
     public int fase = 1;
     public float hpMin;
     public float hpMax;
-    public Image barra;
+    //public Image barra;
     public AudioSource musica;
     public bool muerte;
 
