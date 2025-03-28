@@ -6,8 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Grupo/ScenesGroup/UI.unity
+    guid: 4246d145175a52c40806478d7140aa19
+  - enabled: 1
+    path: Assets/Grupo/ScenesGroup/Chacho.unity
+    guid: 29d6d1abb4f05a648aaffa82cd9a2c84
+  - enabled: 1
+    path: Assets/Grupo/ScenesGroup/Santiago.unity
+    guid: 232bee39648a5f140b26f7d8a13d518b
+  - enabled: 1
+    path: Assets/Grupo/ScenesGroup/Tania.unity
+    guid: 08ebe4b65b1d2ab42886a470d258765b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 634936cfb15a23c4f90906ebdc11eea3,
       type: 2}
