@@ -7,6 +7,9 @@ public class PhysicsMovement : MonoBehaviour
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
     public float jumpForce = 7f;
+    public float fallMultiplier = 2.5f;
+    public float lowJumpMultiplier = 2f;
+
     [SerializeField] private Rigidbody playerRigidbody;
     //[SerializeField] private Animator playerAnimControl;
     private Vector3 moveDirection;
@@ -97,6 +100,15 @@ public class PhysicsMovement : MonoBehaviour
     {
         //Usamos metodo AddForce en Rigidbody para aplicar una fuerza vertical con modo de Impulso
         playerRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        if (playerRigidbody.velocity.y < 0)
+        {
+            playerRigidbody.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        //else if (playerRigidbody.velocity.y > 0 && !Input.GetButtonDown("Jump"))
+        //{
+        //    playerRigidbody.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
+        //}
     }
 
     //Esto nos comunica cuando colisiona con un objeto que tenga el tag "Floor"
