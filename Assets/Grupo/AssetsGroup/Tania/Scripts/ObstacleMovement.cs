@@ -27,6 +27,7 @@ public class ObstacleMovement : MonoBehaviour
         {
             if (other.gameObject.name == "LeftLimit") // Si toca el límite izquierdo
             {
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
                 directionSet = true;
                 direction = 1; // Se mueve hacia la derecha
             }

@@ -19,6 +19,6 @@ public class menuprimero : MonoBehaviour
     }
     public void Creditos()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene(4);
     }
 }

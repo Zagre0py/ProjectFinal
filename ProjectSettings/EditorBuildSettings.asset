@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Grupo/ScenesGroup/Tania.unity
     guid: 08ebe4b65b1d2ab42886a470d258765b
+  - enabled: 1
+    path: Assets/Grupo/AssetsGroup/Julio/creditos.unity
+    guid: 28157e47eb9e36e40817904721bd5f1c
+  - enabled: 1
+    path: Assets/Grupo/AssetsGroup/Julio/Julio.unity
+    guid: a1ec8a172d6913b409aa7d39fa9386af
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 634936cfb15a23c4f90906ebdc11eea3,
       type: 2}

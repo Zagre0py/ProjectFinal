@@ -37,6 +37,7 @@ public class Player_Movement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left);
             if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right);
         }
+
     }
 
     void FixedUpdate()
@@ -53,13 +54,13 @@ public class Player_Movement : MonoBehaviour
             }
         }
 
-        if (inPlatform && currentPlatform != null)
-        {
-            Vector3 platformMovement = currentPlatform.transform.position - lastPlatformPosition;
-            currentPosition += platformMovement;
-            rb.MovePosition(currentPosition);
-            lastPlatformPosition = currentPlatform.transform.position;
-        }
+            if (inPlatform && currentPlatform != null && !onLimit)
+            {
+                Vector3 platformMovement = currentPlatform.transform.position - lastPlatformPosition;
+                currentPosition += platformMovement;
+                rb.MovePosition(currentPosition);
+                lastPlatformPosition = currentPlatform.transform.position;
+            }
     }
 
     void Move(Vector3 direction)
@@ -98,6 +99,10 @@ public class Player_Movement : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
+            Debug.Log("toco el obstaculo");
+            onLimit = true;
+            inPlatform = false;
+            currentPlatform = null;
             transform.position = spawnPoint;
             targetPosition = Vector3.zero;
             currentPosition = spawnPoint;
@@ -122,6 +127,11 @@ public class Player_Movement : MonoBehaviour
         if (collision.gameObject.CompareTag("Floor"))
         {
             inFloor = false;
+        }
+
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            onLimit = false;
         }
 
     }
