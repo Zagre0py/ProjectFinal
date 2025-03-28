@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -39,7 +40,7 @@ public class Boss : MonoBehaviour
     public int fase = 1;
     public float hpMin;
     public float hpMax;
-    //public Image barra;
+    public Image barra;
     public AudioSource musica;
     public bool muerte;
 
@@ -165,6 +166,24 @@ public class Boss : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         target = GameObject.Find("PLayer");
+    }
+
+    void Update()
+    {
+        barra.fillAmount = hpMin / hpMax;
+        if(hpMin > 0){
+
+            Vivo();
+        }
+        else{
+
+            if(!muerte){
+
+                anim.SetTrigger("Dead");
+                //musica.enabled = false;
+                muerte = true;
+            }
+        }
     }
 
     public void ComportamientoBoss()
