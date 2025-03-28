@@ -121,6 +121,6 @@ MonoBehaviour:
   obstaclePrefab: {fileID: 7339993937420470922, guid: a66bc9f20bcca174a99091c17e0194c0,
     type: 3}
   spawnPoint: {fileID: 2512530568775603206}
-  maxRange: 4
-  minRange: 1
+  maxRange: 7
+  minRange: 3
   speed: 5
