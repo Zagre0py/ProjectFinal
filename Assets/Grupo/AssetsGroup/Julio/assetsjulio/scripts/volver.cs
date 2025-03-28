@@ -9,7 +9,7 @@ public class volver : MonoBehaviour
     // Start is called before the first frame update
     public void Regreso()
     {
-      SceneManager.LoadScene(1);
+      SceneManager.LoadScene(5);
     }
 
     // Update is called once per frame
