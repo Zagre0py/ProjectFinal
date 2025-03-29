@@ -79,7 +79,7 @@ public class Boss : MonoBehaviour
 
     //LANZA LLAMAS//
 
-    public GameObject GetBala(){
+    /*public GameObject GetBala(){
 
         for (int i = 0; i < pool.Count; i++){
 
@@ -94,18 +94,18 @@ public class Boss : MonoBehaviour
         pool.Add(obj);
         return obj;
         
-    }
-    public void LanzaLlamasSkill(){
+    }*/
+    /*public void LanzaLlamasSkill(){
 
         cronometro2 += 1*Time.deltaTime;
         if(cronometro2 > 0.1f){
 
-            GameObject obj = GetBala();
+            //GameObject obj = GetBala();
             obj.transform.position = cabeza.transform.position;
             obj.transform.rotation = cabeza.transform.rotation;
             cronometro2 = 0;
         }
-    }
+    }*/
 
     public void StartFire(){
 
@@ -155,17 +155,17 @@ public class Boss : MonoBehaviour
         }
         ComportamientoBoss();
 
-        if(lanzaLlamas){
+       /* if(lanzaLlamas){
 
             LanzaLlamasSkill();
-        }
+        }*/
 
     }
     
     void Start()
     {
         anim = GetComponent<Animator>();
-        target = GameObject.Find("PLayer");
+        target = GameObject.Find("Character01");
     }
 
     void Update()
@@ -192,7 +192,7 @@ public class Boss : MonoBehaviour
         if (Vector3.Distance(transform.position, target.transform.position) < 15)
         {
 
-            var lookPos = target.transform.position = transform.position;
+            var lookPos = target.transform.position - transform.position;
             lookPos.y = 0;
             var rotation = Quaternion.LookRotation(lookPos);
             // point.tranform.lookAt(target.transform.position); CODIGO PARA ATAQUE A DISTANCIA EJ: BOLAS DE FUEGO
@@ -222,6 +222,8 @@ public class Boss : MonoBehaviour
                             cronometro = 0;
                         }
                         break;
+
+                        //Run
                     case 1:
                         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
                         anim.SetBool("Walk", false);
@@ -235,7 +237,7 @@ public class Boss : MonoBehaviour
                         anim.SetBool("Attack", false);
                         break;
 
-                    case 2:
+                    /*case 2:
                         ///Lanza Llamas/// aun no se usa!!!!
                         anim.SetBool("Walk", false);
                         anim.SetBool("Run", false);
@@ -244,9 +246,9 @@ public class Boss : MonoBehaviour
                         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
 
                         rango.GetComponent<CapsuleCollider>().enabled = false;
-                        break;
+                        break;*/
 
-                    case 3:
+                    case 2:
                         ///Ataque en Salto///
                         if (fase == 2)
                         {
@@ -255,7 +257,7 @@ public class Boss : MonoBehaviour
                             anim.SetBool("Walk", false);
                             anim.SetBool("Run", false);
                             anim.SetBool("Attack", true);
-                            anim.SetFloat("Skills", 0);
+                            anim.SetFloat("Skills", 1);
                             hitSelect = 3;
 
                             rango.GetComponent<CapsuleCollider>().enabled = false;
@@ -278,7 +280,7 @@ public class Boss : MonoBehaviour
                         }
                         break;
 
-                    case 4:
+                    /*case 4:
                         ///Fire ball///
 
                         if (fase == 2)
@@ -297,7 +299,7 @@ public class Boss : MonoBehaviour
                             rutina = 0;
                             cronometro = 0;
                         }
-                        break;
+                        break;*/
                 }
             }
         }

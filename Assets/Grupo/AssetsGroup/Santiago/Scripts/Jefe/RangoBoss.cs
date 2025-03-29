@@ -29,13 +29,13 @@ public class RangoBoss : MonoBehaviour
                 boss.hitSelect = 1;
                 break;
 
-            case 2:
+           /* case 2:
                 //jump
                 anim.SetFloat("Skills", 0);
                 boss.hitSelect = 2;
-                break;
+                break;*/
 
-            case 3:
+           /* case 3:
                 //fire ball
                 if (boss.fase == 2)
                 {
@@ -50,7 +50,7 @@ public class RangoBoss : MonoBehaviour
                         melee = 0;
                     }
                 
-                break;
+                break;*/
         }
 
         anim.SetBool("Walk", false);
