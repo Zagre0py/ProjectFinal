@@ -12,6 +12,8 @@ namespace SG
         public float mouseX;
         public float mouseY;
 
+        public Transform Eje;
+
         // [Header("Action Inputs")]
         public bool b_Input;
         public bool rollflag;
@@ -25,7 +27,6 @@ namespace SG
         private PlayerInventory playerInventory;
         PlayerManager playerManager;
         private Vector2 movementInput;
-        private Vector2 cameraInput;
 
         private void Awake()
         {
