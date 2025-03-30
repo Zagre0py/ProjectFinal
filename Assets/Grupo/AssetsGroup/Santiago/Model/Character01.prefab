@@ -1702,7 +1702,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5189746749713336634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fec7a12ab082ea24fabf3ba8ee9a08cc, type: 3}
   m_Name: 
@@ -1714,7 +1714,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5189746749713336634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f1004eaf08d54f4089e76b431704972, type: 3}
   m_Name: 
@@ -1727,7 +1727,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5189746749713336634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72360ec3ac3521b40b7c5598cb1fe742, type: 3}
   m_Name: 
@@ -1741,7 +1741,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5189746749713336634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e6f9bc6327e3f14c8ac2d2d53f37202, type: 3}
   m_Name: 
@@ -1751,6 +1751,7 @@ MonoBehaviour:
   moveAmount: 0
   mouseX: 0
   mouseY: 0
+  Eje: {fileID: 0}
   b_Input: 0
   rollflag: 0
   comboFlag: 0
@@ -1764,7 +1765,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5189746749713336634}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c065cd67d627e434f9330fb2934ec98c, type: 3}
   m_Name: 
