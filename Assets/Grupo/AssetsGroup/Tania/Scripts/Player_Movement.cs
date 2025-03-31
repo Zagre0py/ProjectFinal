@@ -16,8 +16,7 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] private bool inFloor = false;
     [SerializeField] private bool onLimit = false;
 
-
-
+    private Animator animator;
     private GameObject currentPlatform;
 
     void Start()
@@ -26,6 +25,7 @@ public class Player_Movement : MonoBehaviour
         targetPosition = transform.position;
         spawnPoint = transform.position;
         currentPosition = transform.position;
+        animator = gameObject.GetComponent<Animator>();
     }
 
     void Update()
@@ -37,7 +37,6 @@ public class Player_Movement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left);
             if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right);
         }
-
     }
 
     void FixedUpdate()
@@ -51,16 +50,22 @@ public class Player_Movement : MonoBehaviour
             {
                 rb.position = currentPosition; // Fija la posición exacta
                 isMoving = false;
+
+                // Se asegura de que la animación de salto no siga activa
+                animator.ResetTrigger("IsJumping");
+
+                // Se activa la animación de Idle inmediatamente al detenerse
+                animator.SetTrigger("IsIdle");
             }
         }
 
-            if (inPlatform && currentPlatform != null && !onLimit)
-            {
-                Vector3 platformMovement = currentPlatform.transform.position - lastPlatformPosition;
-                currentPosition += platformMovement;
-                rb.MovePosition(currentPosition);
-                lastPlatformPosition = currentPlatform.transform.position;
-            }
+        if (inPlatform && currentPlatform != null && !onLimit)
+        {
+            Vector3 platformMovement = currentPlatform.transform.position - lastPlatformPosition;
+            currentPosition += platformMovement;
+            rb.MovePosition(currentPosition);
+            lastPlatformPosition = currentPlatform.transform.position;
+        }
     }
 
     void Move(Vector3 direction)
@@ -69,6 +74,10 @@ public class Player_Movement : MonoBehaviour
 
         currentPosition = rb.position + direction * moveDistance;
         isMoving = true;
+
+        // Se activa la animación de salto inmediatamente
+        animator.SetTrigger("IsJumping");
+        animator.ResetTrigger("IsIdle");
 
         // Si se mueve, se desvincula de la plataforma
         inPlatform = false;
@@ -133,6 +142,5 @@ public class Player_Movement : MonoBehaviour
         {
             onLimit = false;
         }
-
     }
 }
