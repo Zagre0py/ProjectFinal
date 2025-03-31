@@ -8,9 +8,16 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] float remainingTime;
+    [SerializeField] GameObject ArepaImg1;
+    [SerializeField] GameObject ArepaImg2;
+    [SerializeField] GameObject ArepaImg3;
 
     bool itemCollected = false;
-
+    private void Start()
+    {
+        ArepaImg2.SetActive(false);
+        ArepaImg3.SetActive(false);
+    }
     private void Update()
     {
         TimeCounter();
@@ -26,6 +33,23 @@ public class Timer : MonoBehaviour
         else if (remainingTime > 0)
         {
             remainingTime -= Time.deltaTime;
+
+            if (remainingTime > 240)
+            {
+                ArepaImg1.SetActive(true);
+           
+            }
+            if(remainingTime <= 240)
+            {
+                ArepaImg1.SetActive(false);
+                ArepaImg2.SetActive(true);
+            }
+            if (remainingTime <= 120)
+            {
+                ArepaImg2.SetActive(false);
+                ArepaImg3.SetActive(true);
+            }
+
         }
         else if (remainingTime < 0)
         {
