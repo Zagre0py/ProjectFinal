@@ -11,7 +11,7 @@ public class PageController : MonoBehaviour
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == levelToCheck)
+        if (SceneManager.GetActiveScene().name == "Tania")
         {
             isActive = true;
             ActivatePage(0); // Activa la primera página
