@@ -17,7 +17,6 @@ public class PhysicsMovement : MonoBehaviour
 
     public bool isGrounded;
     float groundCheckDistance;
-    float bufferCheckDistance = 0.1f;
 
     [Header("Camara")]
     public Transform cameraTransform; //Referencia a la camara principal
