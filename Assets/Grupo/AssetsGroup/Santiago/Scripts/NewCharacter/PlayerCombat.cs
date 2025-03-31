@@ -20,6 +20,7 @@ public class PlayerCombat : MonoBehaviour
     private float lastInputTime = 0;
     private bool isAttacking = false;
     private bool bufferedInput = false;
+    
 
     private void Awake()
     {
