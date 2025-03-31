@@ -8,17 +8,24 @@ public class PhysicsMovement : MonoBehaviour
     public float rotationSpeed = 10f;
     public float jumpForce = 7f;
     public float fallMultiplier = 2.5f;
+    public LayerMask floorMask;
+    Vector3 groundCheckPosition; 
 
     [SerializeField] private Rigidbody playerRigidbody;
     //[SerializeField] private Animator playerAnimControl;
     private Vector3 moveDirection;
+
     public bool isGrounded;
+    float groundCheckDistance;
+    float bufferCheckDistance = 0.1f;
 
     [Header("Camara")]
     public Transform cameraTransform; //Referencia a la camara principal
     
     void Start()
     {
+        groundCheckDistance = (GetComponent<CapsuleCollider>().height / 2);
+
         playerRigidbody = GetComponent<Rigidbody>();
         //playerAnimControl = GetComponent<Animator>();
 
@@ -45,6 +52,7 @@ public class PhysicsMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        CheckGrounded();
         ApplyPhysicsMovement();
     }
 
@@ -67,32 +75,25 @@ public class PhysicsMovement : MonoBehaviour
 
         moveDirection = (forward * vertical + right * horizontal).normalized;
 
-        //Animaciones
+        //Salto
 
         if (Input.GetButtonDown("Jump") && isGrounded == true)
         {
             ApplyJump();
-            //playerAnimControl.SetBool("isJumping", true);
         }
-        //else if (isGrounded)
-        //{
-        //    playerAnimControl.SetBool("isJumping", false);
-        //}
-
-        //if (moveDirection != Vector3.zero && isGrounded)
-        //{
-        //    playerAnimControl.SetBool("isRunning", true);
-        //}
-        //else
-        //{
-        //    playerAnimControl.SetBool("isRunning", false);
-        //}
     }
 
     void ApplyPhysicsMovement()
     {
         //Movimiento con fuerzas fisicas por medio de metodo MovePosition
         playerRigidbody.MovePosition(transform.localPosition + moveDirection * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    void CheckGrounded()
+    {
+        groundCheckPosition = new Vector3(transform.position.x, transform.position.y - groundCheckDistance, transform.position.z);
+
+        isGrounded = Physics.OverlapSphere(groundCheckPosition, 0.3f, floorMask).Length > 0;
     }
 
     void ApplyJump()
@@ -103,25 +104,6 @@ public class PhysicsMovement : MonoBehaviour
         if (playerRigidbody.velocity.y < 0)
         {
             playerRigidbody.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
-        }
-    }
-
-    //Esto nos comunica cuando colisiona con un objeto que tenga el tag "Floor"
-    private void OnCollisionStay(Collision other)
-    {
-        if (other.gameObject.CompareTag("Floor"))
-        {
-            isGrounded = true;
-            //playerAnimControl.SetBool("isGrounded", isGrounded);
-        }
-    }
-
-    //Esto nos comunica cuando deja de colisionar con un objeto con el tag "Floor"
-    private void OnCollisionExit(Collision other)
-    {
-        if (other.gameObject.CompareTag("Floor"))
-        {
-            isGrounded = false;
         }
     }
 
@@ -136,4 +118,9 @@ public class PhysicsMovement : MonoBehaviour
             );
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(groundCheckPosition, 0.3f);
+    }
 }

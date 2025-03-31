@@ -459,7 +459,7 @@ GameObject:
   - component: {fileID: 41216781}
   - component: {fileID: 41216780}
   - component: {fileID: 41216779}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (22)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 44249757}
   - component: {fileID: 44249756}
   - component: {fileID: 44249755}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (12)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 67262046}
   - component: {fileID: 67262045}
   - component: {fileID: 67262044}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -983,7 +983,7 @@ GameObject:
   - component: {fileID: 77209903}
   - component: {fileID: 77209902}
   - component: {fileID: 77209901}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (20)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -1252,7 +1252,7 @@ GameObject:
   - component: {fileID: 136572123}
   - component: {fileID: 136572122}
   - component: {fileID: 136572121}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -1391,7 +1391,7 @@ GameObject:
   - component: {fileID: 163985768}
   - component: {fileID: 163985767}
   - component: {fileID: 163985766}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (16)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -1713,7 +1713,7 @@ GameObject:
   - component: {fileID: 218718855}
   - component: {fileID: 218718854}
   - component: {fileID: 218718853}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (5)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -2944,8 +2944,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 3560066806785561359}
-  m_Follow: {fileID: 543450653635559900}
+  m_LookAt: {fileID: 1820839733}
+  m_Follow: {fileID: 1820839733}
   m_CommonLens: 1
   m_Lens:
     FieldOfView: 40
@@ -3040,7 +3040,7 @@ Transform:
   m_GameObject: {fileID: 390895109}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.879119, y: 5, z: 10.082124}
+  m_LocalPosition: {x: 5.3827143, y: 6, z: 12.075489}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3494,7 +3494,7 @@ GameObject:
   - component: {fileID: 431021374}
   - component: {fileID: 431021373}
   - component: {fileID: 431021372}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (11)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -3600,7 +3600,7 @@ GameObject:
   - component: {fileID: 445840536}
   - component: {fileID: 445840535}
   - component: {fileID: 445840534}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (4)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -4023,7 +4023,7 @@ GameObject:
   - component: {fileID: 500520792}
   - component: {fileID: 500520791}
   - component: {fileID: 500520790}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (26)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -4128,7 +4128,7 @@ GameObject:
   - component: {fileID: 509139362}
   - component: {fileID: 509139361}
   - component: {fileID: 509139360}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (15)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -4761,7 +4761,7 @@ GameObject:
   - component: {fileID: 644532283}
   - component: {fileID: 644532282}
   - component: {fileID: 644532281}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (9)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -5333,8 +5333,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774220551}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07151907, y: 0.9162442, z: -0.18961988, w: -0.34558052}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.09423248, y: 0.9037565, z: -0.32523748, w: -0.26184934}
+  m_LocalPosition: {x: 0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5953,7 +5953,7 @@ GameObject:
   - component: {fileID: 900494627}
   - component: {fileID: 900494626}
   - component: {fileID: 900494625}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (23)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -6967,7 +6967,7 @@ GameObject:
   - component: {fileID: 982917562}
   - component: {fileID: 982917561}
   - component: {fileID: 982917560}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (13)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -7073,7 +7073,7 @@ GameObject:
   - component: {fileID: 987085609}
   - component: {fileID: 987085608}
   - component: {fileID: 987085607}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (8)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -7179,7 +7179,7 @@ GameObject:
   - component: {fileID: 987902234}
   - component: {fileID: 987902233}
   - component: {fileID: 987902232}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (21)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -7800,8 +7800,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132819254}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07151908, y: 0.9162442, z: -0.18961985, w: -0.3455806}
-  m_LocalPosition: {x: 5.869245, y: 4.999998, z: 6.001053}
+  m_LocalRotation: {x: -0.094232485, y: 0.9037565, z: -0.3252375, w: -0.26184934}
+  m_LocalPosition: {x: 5.633916, y: 6.217455, z: 7.4542513}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8060,7 +8060,7 @@ GameObject:
   - component: {fileID: 1146044708}
   - component: {fileID: 1146044707}
   - component: {fileID: 1146044706}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (24)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -8199,7 +8199,7 @@ GameObject:
   - component: {fileID: 1188023353}
   - component: {fileID: 1188023352}
   - component: {fileID: 1188023351}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (25)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -9459,7 +9459,7 @@ GameObject:
   - component: {fileID: 1385560161}
   - component: {fileID: 1385560160}
   - component: {fileID: 1385560159}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (3)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -9565,7 +9565,7 @@ GameObject:
   - component: {fileID: 1388886062}
   - component: {fileID: 1388886061}
   - component: {fileID: 1388886060}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (19)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -9925,7 +9925,7 @@ GameObject:
   - component: {fileID: 1445801645}
   - component: {fileID: 1445801644}
   - component: {fileID: 1445801643}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (7)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -10484,7 +10484,7 @@ GameObject:
   - component: {fileID: 1486317209}
   - component: {fileID: 1486317208}
   - component: {fileID: 1486317207}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (10)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -10737,7 +10737,7 @@ GameObject:
   - component: {fileID: 1543559354}
   - component: {fileID: 1543559353}
   - component: {fileID: 1543559352}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (17)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -10977,8 +10977,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560667000}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.065237984, y: 0.91953343, z: -0.1729667, w: -0.34682113}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.08946666, y: 0.90950805, z: -0.3087885, w: -0.26351577}
+  m_LocalPosition: {x: 0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11358,7 +11358,7 @@ GameObject:
   - component: {fileID: 1611235437}
   - component: {fileID: 1611235436}
   - component: {fileID: 1611235435}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (14)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -12280,7 +12280,7 @@ GameObject:
   - component: {fileID: 1746353864}
   - component: {fileID: 1746353863}
   - component: {fileID: 1746353862}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Floor Terrain
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -12640,7 +12640,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1820839728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12655,8 +12655,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rotationSpeed: 10
-  jumpForce: 50
+  jumpForce: 170
   fallMultiplier: 3
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 256
   playerRigidbody: {fileID: 1820839729}
   isGrounded: 0
   cameraTransform: {fileID: 0}
@@ -12668,7 +12671,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1820839727}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 35
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -12685,7 +12688,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &1820839730
 CapsuleCollider:
@@ -13477,7 +13480,7 @@ GameObject:
   - component: {fileID: 1937561721}
   - component: {fileID: 1937561720}
   - component: {fileID: 1937561719}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (6)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -13915,7 +13918,7 @@ GameObject:
   - component: {fileID: 2009148893}
   - component: {fileID: 2009148892}
   - component: {fileID: 2009148891}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (18)
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -14415,8 +14418,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113821110}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07779318, y: 0.91264355, z: -0.20625456, w: -0.34422243}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.09897985, y: 0.897691, z: -0.34162265, w: -0.26009202}
+  m_LocalPosition: {x: 0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14511,111 +14514,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ff72ca919cf97934b9fbbb622809a6c0,
     type: 3}
   m_PrefabInstance: {fileID: 2130703590}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &543450653635559900 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-    type: 3}
-  m_PrefabInstance: {fileID: 3560066806785561358}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &3560066806785561358
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.26
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3908868454686271052, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6898345424025390346, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 8085474785612778350, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 0.2221657
-      objectReference: {fileID: 0}
-    - target: {fileID: 8085474785612778350, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_Center.z
-      value: 0.018864056
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301121207081678882, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 0.1946654
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301121207081678882, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 0.036046963
-      objectReference: {fileID: 0}
-    - target: {fileID: 8301121207081678882, guid: 591146853f4ce254589444144d028854,
-        type: 3}
-      propertyPath: m_Center.z
-      value: 0.002473414
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 591146853f4ce254589444144d028854, type: 3}
---- !u!4 &3560066806785561359 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1898509697494535692, guid: 591146853f4ce254589444144d028854,
-    type: 3}
-  m_PrefabInstance: {fileID: 3560066806785561358}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6230280905256027028 stripped
 Transform:
@@ -14866,4 +14764,3 @@ SceneRoots:
   - {fileID: 365013408}
   - {fileID: 1667038468}
   - {fileID: 1574493758}
-  - {fileID: 3560066806785561358}
