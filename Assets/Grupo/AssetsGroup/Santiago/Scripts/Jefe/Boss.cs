@@ -1,242 +1,164 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.UI;
+using System.Collections;
 
 public class Boss : MonoBehaviour
 {
-    public int rutina;
-    public float cronometro;
-    public float timeRutina;
+    [Header("Referencias")]
+    public Transform player;
     public Animator anim;
-    public Quaternion angulo;
-    public float grado;
-    public GameObject target;
-    public bool atacando;
-    public RangoBoss rango;
-    public float speed;
-    public GameObject[] hit;
-    public int hitSelect;
+    public Image healthBar;
+    public Collider weaponCollider;
 
-    private bool canChangeState = true;
+    [Header("Configuración")]
+    public float moveSpeed = 3f;
+    public float rotationSpeed = 5f;
+    public float attackRange = 3f;
+    public float detectionRange = 15f;
+    public float timeBetweenAttacks = 3f;
+    public float phase2Threshold = 0.6f; // 60% de vida
+    public float phase3Threshold = 0.3f; // 30% de vida
 
-    ////// ATAQUE EN SALTO///////
-    public float jumpDistance;
-    public bool directionSkill;
+    [Header("Vida")]
+    public float maxHealth = 1000f;
+    private float currentHealth;
 
-    /////////////////////////////
+    // Estados
+    private bool isDead = false;
+    private bool isAttacking = false;
+    private float attackCooldown;
+    private int currentPhase = 1;
+    private int attackPattern = 0;
 
-    public int fase = 1;
-    public float hpMin;
-    public float hpMax;
-    public Image barra;
-    public AudioSource musica;
-    public bool muerte;
-
-    public void FinalAnim(){
-
-        rutina = 0;
-        anim.SetBool("Attack", false);
-        rango.GetComponent<CapsuleCollider>().enabled = true;
-       // lanzaLlamas = false;
-        jumpDistance = 0;
-        directionSkill = false;
-    }
-
-    public void DirectionAttackStart(){
-
-        directionSkill = true;
-    }
-
-    public void DirectionAttackFinal(){
-
-        directionSkill = false;
-    }
-
-    
-    ///  MELEE//
-    
-    public void ColliderWeaponTrue(){
-
-        hit[hitSelect].GetComponent<SphereCollider>().enabled = true;
-    }
-
-    public void ColliderWeaponFlase(){
-
-        hit[hitSelect].GetComponent<SphereCollider>().enabled = false;
-    }
-
-    //LANZA LLAMAS//
-
-    /*public GameObject GetBala(){
-
-        for (int i = 0; i < pool.Count; i++){
-
-            if(!pool[i].activeInHierarchy){
-
-                pool[i].SetActive(true);
-                return pool[i];
-            }
-        }
-
-        GameObject obj = Instantiate(fire, cabeza.transform.position, cabeza.transform.rotation) as GameObject;
-        pool.Add(obj);
-        return obj;
-        
-    }*/
-    /*public void LanzaLlamasSkill(){
-
-        cronometro2 += 1*Time.deltaTime;
-        if(cronometro2 > 0.1f){
-
-            //GameObject obj = GetBala();
-            obj.transform.position = cabeza.transform.position;
-            obj.transform.rotation = cabeza.transform.rotation;
-            cronometro2 = 0;
-        }
-    }*/
-
-   /* public void StartFire(){
-
-        lanzaLlamas = true;
-        
-    }
-    public void StopFire(){
-
-        lanzaLlamas = false;
-    }*/ 
-
-    //BOLA DE FUEGO//
-    /*public GameObject GetFireBall(){
-
-        for (int i = 0; i < pool2.Count; i++){
-
-            if(!pool2[i].activeInHierarchy){
-
-                pool2[i].SetActive(true);
-                return pool[i];
-            }
-        }
-        GameObject obj = Instantiate(fireBall, point.transform.position, point.transform.rotation) as GameObject;
-        pool2.Add(obj);
-        return obj;
-    }
-    
-     public void FireBallSkill(){
-
-        cronometro2 += 1*Time.deltaTime;
-        if(cronometro2 > 0.1f){
-
-            GameObject obj = GetfireBall();
-            obj.transform.position = cabeza.transform.position;
-            obj.transform.rotation = cabeza.transform.rotation;
-            
-        }
-    }
-    */
-
-    public void Vivo(){
-
-        if(hpMin < 500){
-
-            fase = 2;
-            timeRutina = 1;
-        }
-        ComportamientoBoss();
-
-       /* if(lanzaLlamas){
-
-            LanzaLlamasSkill();
-        }*/
-
-    }
-    
     void Start()
     {
-        anim = GetComponent<Animator>();
-        target = GameObject.Find("Character2");
+        currentHealth = maxHealth;
+        attackCooldown = timeBetweenAttacks;
+        
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        barra.fillAmount = hpMin / hpMax;
-        if(hpMin > 0){
+        if (isDead || player == null) return;
 
-            Vivo();
-        }
-        else{
+        UpdateHealth();
+        CheckPhaseChange();
 
-            if(!muerte){
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-                anim.SetTrigger("Dead");
-                //musica.enabled = false;
-                muerte = true;
-            }
-        }
-    }
-
-    public void ComportamientoBoss()
-{
-    if (Vector3.Distance(transform.position, target.transform.position) < 15)
-    {
-        var lookPos = target.transform.position - transform.position;
-        lookPos.y = 0;
-        var rotation = Quaternion.LookRotation(lookPos);
-
-        if (Vector3.Distance(transform.position, target.transform.position) > 1 && !atacando && canChangeState)
+        if (distanceToPlayer <= detectionRange)
         {
-            switch (rutina)
+            FacePlayer();
+            
+            if (distanceToPlayer > attackRange)
             {
-                case 0: // Walk
-                    if (transform.rotation == rotation)
-                    {
-                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                    }
-                    break;
-
-                case 1: // Run
-                    if (transform.rotation == rotation)
-                    {
-                        transform.Translate(Vector3.forward * speed * 2 * Time.deltaTime);
-                    }
-                    break;
-
-                case 2: // Ataque en Salto
-                    if (fase == 2)
-                    {
-                        StartCoroutine(JumpAttack(rotation));
-                    }
-                    break;
+                MoveTowardsPlayer();
+            }
+            else if (attackCooldown <= 0 && !isAttacking)
+            {
+                StartCoroutine(PerformAttack());
             }
         }
-    }
-}
-private IEnumerator JumpAttack(Quaternion targetRotation)
-{
-    canChangeState = false;
-    atacando = true;
-    anim.SetBool("Attack", true);
-    
-    float attackDuration = 1.5f; // Ajusta según tu animación
-    float timer = 0f;
 
-    while (timer < attackDuration)
+        if (attackCooldown > 0)
+            attackCooldown -= Time.deltaTime;
+    }
+
+    void UpdateHealth()
     {
-        timer += Time.deltaTime;
-        
-        if (directionSkill)
-        {
-            transform.Translate(Vector3.forward * 8 * Time.deltaTime);
-        }
-        
-        yield return null;
+        healthBar.fillAmount = currentHealth / maxHealth;
     }
-     anim.SetBool("Attack", false);
-    atacando = false;
-    canChangeState = true;
-    rutina = 0; // Volver a estado neutral
 
-}
+    void CheckPhaseChange()
+    {
+        float healthPercent = currentHealth / maxHealth;
+
+        if (healthPercent <= phase3Threshold && currentPhase != 3)
+        {
+            currentPhase = 3;
+            ChangeAttackPattern();
+        }
+        else if (healthPercent <= phase2Threshold && currentPhase != 2)
+        {
+            currentPhase = 2;
+            ChangeAttackPattern();
+        }
+    }
+
+    void FacePlayer()
+    {
+        Vector3 direction = (player.position - transform.position).normalized;
+        direction.y = 0;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    void MoveTowardsPlayer()
+    {
+        if (isAttacking) return;
+
+        Vector3 moveDirection = (player.position - transform.position).normalized;
+        transform.position += moveDirection * moveSpeed * Time.deltaTime;
+        anim.SetBool("IsMoving", true);
+    }
+
+    IEnumerator PerformAttack()
+    {
+        isAttacking = true;
+        anim.SetBool("IsMoving", false);
+        attackCooldown = timeBetweenAttacks;
+
+        // Seleccionar ataque según fase y patrón
+        string attackTrigger = "Attack" + currentPhase + "_" + (attackPattern % 3 + 1);
+        anim.SetTrigger(attackTrigger);
+
+        // Esperar durante el ataque (ajustar según duración de animación)
+        yield return new WaitForSeconds(1.5f);
+
+        isAttacking = false;
+        attackPattern++;
+    }
+
+    void ChangeAttackPattern()
+    {
+        // Reducir tiempo entre ataques en fases avanzadas
+        timeBetweenAttacks *= 0.7f;
+        
+        // Cambiar a nuevos ataques
+        attackPattern = 0;
+        Debug.Log("Cambiando a Fase " + currentPhase + " con nuevos ataques!");
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (isDead) return;
+
+        currentHealth -= damage;
+        
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        isDead = true;
+        anim.SetTrigger("Die");
+        healthBar.gameObject.SetActive(false);
+        Destroy(gameObject, 5f);
+    }
+
+    // Llamados desde Animation Events
+    public void EnableWeaponCollider()
+    {
+        weaponCollider.enabled = true;
+    }
+
+    public void DisableWeaponCollider()
+    {
+        weaponCollider.enabled = false;
+    }
 }
