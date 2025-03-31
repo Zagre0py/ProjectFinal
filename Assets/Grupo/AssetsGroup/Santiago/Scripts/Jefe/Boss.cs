@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class Boss : MonoBehaviour
+public class BossController : MonoBehaviour
 {
     [Header("Referencias")]
     public Transform player;
     public Animator anim;
-    public Image healthBar;
-    public Collider weaponCollider;
+    public Slider healthBar;
+    public Collider normalAttackCollider;
+    public Collider jumpAttackCollider;
 
     [Header("Configuración")]
     public float moveSpeed = 3f;
@@ -16,8 +17,7 @@ public class Boss : MonoBehaviour
     public float attackRange = 3f;
     public float detectionRange = 15f;
     public float timeBetweenAttacks = 3f;
-    public float phase2Threshold = 0.6f; // 60% de vida
-    public float phase3Threshold = 0.3f; // 30% de vida
+    public float phaseThreshold = 0.5f; // Cambio de fase al 50% de vida
 
     [Header("Vida")]
     public float maxHealth = 1000f;
@@ -27,13 +27,12 @@ public class Boss : MonoBehaviour
     private bool isDead = false;
     private bool isAttacking = false;
     private float attackCooldown;
-    private int currentPhase = 1;
-    private int attackPattern = 0;
+    private bool isPhase2 = false;
 
     void Start()
     {
         currentHealth = maxHealth;
-        attackCooldown = timeBetweenAttacks;
+        UpdateHealthUI();
         
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -43,92 +42,78 @@ public class Boss : MonoBehaviour
     {
         if (isDead || player == null) return;
 
-        UpdateHealth();
-        CheckPhaseChange();
+        HandleMovement();
+        HandleAttacks();
+    }
 
+    void HandleMovement()
+    {
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= detectionRange)
+        
+        if (distanceToPlayer <= detectionRange && !isAttacking)
         {
-            FacePlayer();
-            
+            // Rotar para mirar al jugador
+            Vector3 direction = (player.position - transform.position).normalized;
+            direction.y = 0;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+
+            // Moverse hacia el jugador si está fuera de rango de ataque
             if (distanceToPlayer > attackRange)
             {
-                MoveTowardsPlayer();
+                transform.position += direction * moveSpeed * Time.deltaTime;
+                anim.SetBool("IsMoving", true);
             }
-            else if (attackCooldown <= 0 && !isAttacking)
+            else
             {
-                StartCoroutine(PerformAttack());
+                anim.SetBool("IsMoving", false);
             }
+        }
+        else
+        {
+            anim.SetBool("IsMoving", false);
+        }
+    }
+
+    void HandleAttacks()
+    {
+        if (isAttacking) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        
+        if (distanceToPlayer <= attackRange && attackCooldown <= 0)
+        {
+            StartCoroutine(PerformAttack());
         }
 
         if (attackCooldown > 0)
             attackCooldown -= Time.deltaTime;
     }
 
-    void UpdateHealth()
-    {
-        healthBar.fillAmount = currentHealth / maxHealth;
-    }
-
-    void CheckPhaseChange()
-    {
-        float healthPercent = currentHealth / maxHealth;
-
-        if (healthPercent <= phase3Threshold && currentPhase != 3)
-        {
-            currentPhase = 3;
-            ChangeAttackPattern();
-        }
-        else if (healthPercent <= phase2Threshold && currentPhase != 2)
-        {
-            currentPhase = 2;
-            ChangeAttackPattern();
-        }
-    }
-
-    void FacePlayer()
-    {
-        Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
-    }
-
-    void MoveTowardsPlayer()
-    {
-        if (isAttacking) return;
-
-        Vector3 moveDirection = (player.position - transform.position).normalized;
-        transform.position += moveDirection * moveSpeed * Time.deltaTime;
-        anim.SetBool("IsMoving", true);
-    }
-
     IEnumerator PerformAttack()
     {
         isAttacking = true;
-        anim.SetBool("IsMoving", false);
         attackCooldown = timeBetweenAttacks;
 
-        // Seleccionar ataque según fase y patrón
-        string attackTrigger = "Attack" + currentPhase + "_" + (attackPattern % 3 + 1);
-        anim.SetTrigger(attackTrigger);
-
-        // Esperar durante el ataque (ajustar según duración de animación)
-        yield return new WaitForSeconds(1.5f);
+        // Seleccionar ataque según fase
+        if (!isPhase2 || Random.value > 0.5f) // 50% de probabilidad en fase 2
+        {
+            // Ataque normal
+            anim.SetTrigger("Attack_Normal");
+            normalAttackCollider.enabled = true;
+            yield return new WaitForSeconds(1f); // Duración del ataque normal
+            normalAttackCollider.enabled = false;
+        }
+        else
+        {
+            // Ataque de salto
+            anim.SetTrigger("Attack_Jump");
+            jumpAttackCollider.enabled = true;
+            yield return new WaitForSeconds(1.8f); // Duración del ataque de salto
+            jumpAttackCollider.enabled = false;
+        }
 
         isAttacking = false;
-        attackPattern++;
-    }
-
-    void ChangeAttackPattern()
-    {
-        // Reducir tiempo entre ataques en fases avanzadas
-        timeBetweenAttacks *= 0.7f;
-        
-        // Cambiar a nuevos ataques
-        attackPattern = 0;
-        Debug.Log("Cambiando a Fase " + currentPhase + " con nuevos ataques!");
     }
 
     public void TakeDamage(float damage)
@@ -136,29 +121,43 @@ public class Boss : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damage;
-        
-        if (currentHealth <= 0)
+        UpdateHealthUI();
+
+        if (!isPhase2 && currentHealth / maxHealth <= phaseThreshold)
         {
-            Die();
+            EnterPhase2();
         }
+
+        if (currentHealth <= 0)
+            Die();
+    }
+
+    void EnterPhase2()
+    {
+        isPhase2 = true;
+        timeBetweenAttacks *= 0.7f; // Ataques más frecuentes
+        moveSpeed *= 1.2f; // Más rápido
+        anim.SetTrigger("PhaseChange");
     }
 
     void Die()
     {
         isDead = true;
         anim.SetTrigger("Die");
-        healthBar.gameObject.SetActive(false);
-        Destroy(gameObject, 5f);
+        normalAttackCollider.enabled = false;
+        jumpAttackCollider.enabled = false;
+        this.enabled = false;
     }
 
-    // Llamados desde Animation Events
-    public void EnableWeaponCollider()
+    void UpdateHealthUI()
     {
-        weaponCollider.enabled = true;
+        if (healthBar != null)
+            healthBar.value = currentHealth / maxHealth;
     }
 
-    public void DisableWeaponCollider()
-    {
-        weaponCollider.enabled = false;
-    }
+    // Llamar desde Animation Events
+    public void EnableNormalAttack() => normalAttackCollider.enabled = true;
+    public void DisableNormalAttack() => normalAttackCollider.enabled = false;
+    public void EnableJumpAttack() => jumpAttackCollider.enabled = true;
+    public void DisableJumpAttack() => jumpAttackCollider.enabled = false;
 }
