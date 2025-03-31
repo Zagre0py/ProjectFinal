@@ -20,16 +20,7 @@ public class Boss : MonoBehaviour
     public GameObject[] hit;
     public int hitSelect;
 
-    /// <summary>
-    /// LANZA LLAMAS
-        public bool lanzaLlamas;
-        public List<GameObject> pool = new List<GameObject>();
-        public GameObject fire;
-        public GameObject cabeza;
-        private float cronometro2;
-
-    /// </summary>
-
+    private bool canChangeState = true;
 
     ////// ATAQUE EN SALTO///////
     public float jumpDistance;
@@ -49,7 +40,7 @@ public class Boss : MonoBehaviour
         rutina = 0;
         anim.SetBool("Attack", false);
         rango.GetComponent<CapsuleCollider>().enabled = true;
-        lanzaLlamas = false;
+       // lanzaLlamas = false;
         jumpDistance = 0;
         directionSkill = false;
     }
@@ -107,7 +98,7 @@ public class Boss : MonoBehaviour
         }
     }*/
 
-    public void StartFire(){
+   /* public void StartFire(){
 
         lanzaLlamas = true;
         
@@ -115,7 +106,7 @@ public class Boss : MonoBehaviour
     public void StopFire(){
 
         lanzaLlamas = false;
-    }
+    }*/ 
 
     //BOLA DE FUEGO//
     /*public GameObject GetFireBall(){
@@ -165,7 +156,7 @@ public class Boss : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        target = GameObject.Find("Character01");
+        target = GameObject.Find("Character2");
     }
 
     void Update()
@@ -187,122 +178,65 @@ public class Boss : MonoBehaviour
     }
 
     public void ComportamientoBoss()
+{
+    if (Vector3.Distance(transform.position, target.transform.position) < 15)
     {
+        var lookPos = target.transform.position - transform.position;
+        lookPos.y = 0;
+        var rotation = Quaternion.LookRotation(lookPos);
 
-        if (Vector3.Distance(transform.position, target.transform.position) < 15)
+        if (Vector3.Distance(transform.position, target.transform.position) > 1 && !atacando && canChangeState)
         {
-
-            var lookPos = target.transform.position - transform.position;
-            lookPos.y = 0;
-            var rotation = Quaternion.LookRotation(lookPos);
-            // point.tranform.lookAt(target.transform.position); CODIGO PARA ATAQUE A DISTANCIA EJ: BOLAS DE FUEGO
-
-            if (Vector3.Distance(transform.position, target.transform.position) > 1 && !atacando)
+            switch (rutina)
             {
+                case 0: // Walk
+                    if (transform.rotation == rotation)
+                    {
+                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                    }
+                    break;
 
-                switch (rutina)
-                {
+                case 1: // Run
+                    if (transform.rotation == rotation)
+                    {
+                        transform.Translate(Vector3.forward * speed * 2 * Time.deltaTime);
+                    }
+                    break;
 
-                    case 0:
-                        //walk//
-                        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
-                        anim.SetBool("Walk", true);
-                        anim.SetBool("Run", false);
-
-                        if (transform.rotation == rotation)
-                        {
-
-                            transform.Translate(Vector3.forward * speed * Time.deltaTime);
-                        }
-                        anim.SetBool("Attack", false);
-                        cronometro += 1 * Time.deltaTime;
-                        if (cronometro > timeRutina)
-                        {
-                            rutina = Random.Range(0, 5);
-                            cronometro = 0;
-                        }
-                        break;
-
-                        //Run
-                    case 1:
-                        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
-                        anim.SetBool("Walk", false);
-                        anim.SetBool("Run", true);
-
-                        if (transform.rotation == rotation)
-                        {
-
-                            transform.Translate(Vector3.forward * speed * 2 * Time.deltaTime);
-                        }
-                        anim.SetBool("Attack", false);
-                        break;
-
-                    /*case 2:
-                        ///Lanza Llamas/// aun no se usa!!!!
-                        anim.SetBool("Walk", false);
-                        anim.SetBool("Run", false);
-                        anim.SetBool("Attack", false);
-                        anim.SetFloat("Skills", 0);
-                        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
-
-                        rango.GetComponent<CapsuleCollider>().enabled = false;
-                        break;*/
-
-                    case 2:
-                        ///Ataque en Salto///
-                        if (fase == 2)
-                        {
-
-                            jumpDistance += 1 * Time.deltaTime;
-                            anim.SetBool("Walk", false);
-                            anim.SetBool("Run", false);
-                            anim.SetBool("Attack", true);
-                            anim.SetFloat("Skills", 1);
-                            hitSelect = 3;
-
-                            rango.GetComponent<CapsuleCollider>().enabled = false;
-
-                            if (directionSkill)
-                            {
-
-
-                                if (jumpDistance < 1f)
-                                {
-                                    transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 2);
-                                }
-                                transform.Translate(Vector3.forward * 8 * Time.deltaTime);
-                            }
-                        }
-                        else
-                        {
-                            rutina = 0;
-                            cronometro = 0;
-                        }
-                        break;
-
-                    /*case 4:
-                        ///Fire ball///
-
-                        if (fase == 2)
-                        {
-                            anim.SetBool("Walk", false);
-                            anim.SetBool("Run", false);
-                            anim.SetBool("Attack", false);
-                            anim.SetFloat("Skills", 0);
-                            rango.GetComponent<CapsuleCollider>().enabled = false;
-                            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 0.5f);
-                        }
-
-                        else
-                        {
-
-                            rutina = 0;
-                            cronometro = 0;
-                        }
-                        break;*/
-                }
+                case 2: // Ataque en Salto
+                    if (fase == 2)
+                    {
+                        StartCoroutine(JumpAttack(rotation));
+                    }
+                    break;
             }
         }
     }
+}
+private IEnumerator JumpAttack(Quaternion targetRotation)
+{
+    canChangeState = false;
+    atacando = true;
+    anim.SetBool("Attack", true);
+    
+    float attackDuration = 1.5f; // Ajusta según tu animación
+    float timer = 0f;
 
+    while (timer < attackDuration)
+    {
+        timer += Time.deltaTime;
+        
+        if (directionSkill)
+        {
+            transform.Translate(Vector3.forward * 8 * Time.deltaTime);
+        }
+        
+        yield return null;
+    }
+     anim.SetBool("Attack", false);
+    atacando = false;
+    canChangeState = true;
+    rutina = 0; // Volver a estado neutral
+
+}
 }
