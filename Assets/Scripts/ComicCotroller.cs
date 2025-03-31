@@ -1,31 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ComicCotroller : MonoBehaviour
+public class PageController : MonoBehaviour
 {
-    [SerializeField] GameObject[] part1;
+    public GameObject[] pages; // Asigna las páginas en el Inspector
+    public int levelToCheck = 1; // Nivel donde se activa el sistema
 
-    int partCount = 1;
-   
+    private int currentIndex = 0;
+    private bool isActive = false;
 
-    public bool inLvl1, inLvl2, inLvl3; 
     void Start()
     {
-        
+        if (SceneManager.GetActiveScene().buildIndex == levelToCheck)
+        {
+            isActive = true;
+            ActivatePage(0); // Activa la primera página
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        /*if (inLvl1)
+        if (isActive && Input.GetKeyDown(KeyCode.E))
         {
-            while (part1 =!part1.Length()) 
+            currentIndex++;
+
+            if (currentIndex < pages.Length)
             {
-                part1[1].SetActive(true);
-
+                ActivatePage(currentIndex);
             }
+            else
+            {
+                DeactivateAllPages();
+            }
+        }
+    }
 
-        }*/
+    void ActivatePage(int index)
+    {
+        for (int i = 0; i < pages.Length; i++)
+        {
+            pages[i].SetActive(i == index);
+        }
+    }
+
+    void DeactivateAllPages()
+    {
+        foreach (GameObject page in pages)
+        {
+            page.SetActive(false);
+        }
+        isActive = false;
     }
 }
