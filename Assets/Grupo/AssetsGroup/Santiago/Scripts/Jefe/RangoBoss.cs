@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RangoBoss : MonoBehaviour
 {
-    public Animator anim;
+ /*   public Animator anim;
     public Boss boss;
     public int melee;
 
@@ -51,9 +51,9 @@ public class RangoBoss : MonoBehaviour
                     }
                 
                 break;*/
-        }
+      //  }
 
-        anim.SetBool("Walk", false);
+      /*  anim.SetBool("Walk", false);
         anim.SetBool("Run", false);
         anim.SetBool("Attack", false);
         boss.atacando = true;
@@ -70,5 +70,5 @@ public class RangoBoss : MonoBehaviour
     void Update()
     {
 
-    }
+    }*/
 }
