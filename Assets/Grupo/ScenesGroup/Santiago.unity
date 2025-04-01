@@ -964,7 +964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f36ac94816ef144aada58a03ee455a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
 --- !u!114 &1231831785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2746,7 +2745,8 @@ MonoBehaviour:
   detectionRange: 15
   timeBetweenAttacks: 3
   phaseThreshold: 0.5
-  maxHealth: 1000
+  vida: 0
+  vidaVisual: {fileID: 1525399911}
 --- !u!65 &2069951588376946512
 BoxCollider:
   m_ObjectHideFlags: 0

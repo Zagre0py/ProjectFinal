@@ -21,8 +21,9 @@ public class BossController : MonoBehaviour
     public float phaseThreshold = 0.5f; // Cambio de fase al 50% de vida
 
     [Header("Vida")]
-    public float maxHealth = 1000f;
-    private float currentHealth;
+    public int vida;
+    public Slider vidaVisual;
+
 
     // Estados
     private bool isDead = false;
@@ -33,7 +34,7 @@ public class BossController : MonoBehaviour
     void Start()
     {
         playerHealth = GetComponent<PlayerHealth>();
-        currentHealth = maxHealth;
+        
        
         
         if (player == null)
@@ -46,6 +47,7 @@ public class BossController : MonoBehaviour
 
         HandleMovement();
         HandleAttacks();
+        VidaJefe();
     }
 
     void HandleMovement()
@@ -136,7 +138,15 @@ public class BossController : MonoBehaviour
         this.enabled = false;
     }
 
-   
+   public void VidaJefe(){
+
+    vidaVisual.GetComponent<Slider>().value = vida;
+
+    if(vida <= 0){
+
+        Die();
+    }
+   }
 
     // Llamar desde Animation Events
     public void EnableNormalAttack() => normalAttackCollider.enabled = true;
