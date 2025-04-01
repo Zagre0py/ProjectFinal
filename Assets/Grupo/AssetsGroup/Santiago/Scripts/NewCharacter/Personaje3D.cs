@@ -41,7 +41,7 @@ public class Personaje3D : MonoBehaviour
 
         if (isMoving)
         {
-            float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? speed * 1.5f : speed; // Sprint con Shift
+            float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? speed * 2f : speed; // Sprint con Shift
             MoveCharacter(direction.normalized, moveSpeed);
         }
         else if (inground)
