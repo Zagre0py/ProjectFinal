@@ -1,21 +1,16 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PageController : MonoBehaviour
 {
     public GameObject[] pages; // Asigna las páginas en el Inspector
-    public int levelToCheck = 1; // Nivel donde se activa el sistema
 
     private int currentIndex = 0;
     private bool isActive = false;
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name == "Tania")
-        {
-            isActive = true;
-            ActivatePage(0); // Activa la primera página
-        }
+        isActive = true;
+        ActivatePage(0); // Activa la primera página
     }
 
     void Update()
@@ -41,6 +36,8 @@ public class PageController : MonoBehaviour
         {
             pages[i].SetActive(i == index);
         }
+
+        Time.timeScale = 0f; // Pausar el tiempo mientras hay páginas activas
     }
 
     void DeactivateAllPages()
@@ -49,6 +46,8 @@ public class PageController : MonoBehaviour
         {
             page.SetActive(false);
         }
+
         isActive = false;
+        Time.timeScale = 1f; // Reanudar el tiempo cuando todas las páginas se cierran
     }
 }
