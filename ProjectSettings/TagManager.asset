@@ -10,6 +10,8 @@ TagManager:
   - Limit
   - PJ
   - PlayerWeapon
+  - Boss
+  - Arm
   layers:
   - Default
   - TransparentFX
