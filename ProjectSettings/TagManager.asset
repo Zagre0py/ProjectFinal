@@ -11,6 +11,7 @@ TagManager:
   - PJ
   - PlayerWeapon
   - Boss
+  - Arm
   layers:
   - Default
   - TransparentFX
