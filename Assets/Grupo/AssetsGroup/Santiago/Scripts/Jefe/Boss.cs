@@ -7,14 +7,15 @@ public class BossController : MonoBehaviour
     [Header("Referencias")]
     public Transform player;
     public Animator anim;
-    public Slider healthBar;
+    
     public Collider normalAttackCollider;
     public Collider jumpAttackCollider;
+    private PlayerHealth playerHealth;
 
     [Header("Configuración")]
     public float moveSpeed = 3f;
     public float rotationSpeed = 5f;
-    public float attackRange = 3f;
+    public float attackRange = 2f;
     public float detectionRange = 15f;
     public float timeBetweenAttacks = 3f;
     public float phaseThreshold = 0.5f; // Cambio de fase al 50% de vida
@@ -31,8 +32,9 @@ public class BossController : MonoBehaviour
 
     void Start()
     {
+        playerHealth = GetComponent<PlayerHealth>();
         currentHealth = maxHealth;
-        UpdateHealthUI();
+       
         
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -116,21 +118,6 @@ public class BossController : MonoBehaviour
         isAttacking = false;
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (isDead) return;
-
-        currentHealth -= damage;
-        UpdateHealthUI();
-
-        if (!isPhase2 && currentHealth / maxHealth <= phaseThreshold)
-        {
-            EnterPhase2();
-        }
-
-        if (currentHealth <= 0)
-            Die();
-    }
 
     void EnterPhase2()
     {
@@ -149,15 +136,13 @@ public class BossController : MonoBehaviour
         this.enabled = false;
     }
 
-    void UpdateHealthUI()
-    {
-        if (healthBar != null)
-            healthBar.value = currentHealth / maxHealth;
-    }
+   
 
     // Llamar desde Animation Events
     public void EnableNormalAttack() => normalAttackCollider.enabled = true;
     public void DisableNormalAttack() => normalAttackCollider.enabled = false;
     public void EnableJumpAttack() => jumpAttackCollider.enabled = true;
     public void DisableJumpAttack() => jumpAttackCollider.enabled = false;
+
+    
 }

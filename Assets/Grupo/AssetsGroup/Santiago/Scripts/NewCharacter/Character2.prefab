@@ -625,6 +625,7 @@ MonoBehaviour:
   inground: 0
   distance: 0.01
   v3: {x: 0, y: 0.46, z: 0}
+  canMove: 1
 --- !u!95 &5141738160195352906
 Animator:
   serializedVersion: 5
@@ -716,13 +717,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d52f7582c0c63458bd25eaebabb394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  invincibilityTime: 1
-  isInvincible: 0
-  healthSlider: {fileID: 0}
-  damageFlash: {fileID: 0}
-  flashColor: {r: 1, g: 0, b: 0, a: 0.3}
-  damageSound: {fileID: 0}
+  vidaPlayer: 0
+  vidaVisual: {fileID: 0}
+  anim: {fileID: 0}
 --- !u!1 &1260666806514813361
 GameObject:
   m_ObjectHideFlags: 0
