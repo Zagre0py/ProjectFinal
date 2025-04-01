@@ -6,13 +6,13 @@ public class DamagePLayer : MonoBehaviour
 {
     public int damage;
 
-    public GameObject Boss;
+    public GameObject boss;
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag==("Player")){
+        if(other.tag==("Boss")){
 
-            Boss.GetComponent<BossController>().vida -= damage;
+            boss.GetComponent<BossController>().vida -= damage;
         }
 
     }
