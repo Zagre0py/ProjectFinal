@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Limit
   - PJ
+  - PlayerWeapon
   layers:
   - Default
   - TransparentFX
