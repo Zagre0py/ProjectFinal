@@ -8,25 +8,28 @@ public class PhysicsMovement : MonoBehaviour
     public float rotationSpeed = 10f;
     public float jumpForce = 7f;
     public float fallMultiplier = 2.5f;
-    public LayerMask floorMask;
-    Vector3 groundCheckPosition; 
+    public float sprintSpeed = 8f;
 
     [SerializeField] private Rigidbody playerRigidbody;
-    //[SerializeField] private Animator playerAnimControl;
+    [SerializeField] private Animator animator;
+
     private Vector3 moveDirection;
 
+    [Header ("Ground Check")]
     public bool isGrounded;
-    float groundCheckDistance;
+    public float groundCheckDistance;
+    public LayerMask floorMask;
+    Vector3 groundCheckPosition;
 
     [Header("Camara")]
     public Transform cameraTransform; //Referencia a la camara principal
     
     void Start()
     {
-        groundCheckDistance = (GetComponent<CapsuleCollider>().height / 2);
+        //groundCheckDistance = (GetComponent<CapsuleCollider>().height / 2);
 
         playerRigidbody = GetComponent<Rigidbody>();
-        //playerAnimControl = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
 
         if (cameraTransform == null)
         {
@@ -45,8 +48,6 @@ public class PhysicsMovement : MonoBehaviour
         {
             RotateTowardsMovement();
         }
-
-
     }
 
     void FixedUpdate()
@@ -61,6 +62,7 @@ public class PhysicsMovement : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
+
         //Se convierte la dirección de movimiento a coordenadas relativas la cámara
         Vector3 forward = cameraTransform.forward;  
         Vector3 right = cameraTransform.right;
@@ -74,11 +76,45 @@ public class PhysicsMovement : MonoBehaviour
 
         moveDirection = (forward * vertical + right * horizontal).normalized;
 
-        //Salto
+        //Correr
 
-        if (Input.GetButtonDown("Jump") && isGrounded == true)
+        if (Input.GetKey(KeyCode.LeftShift) && moveDirection != Vector3.zero)
+        {
+            moveSpeed = sprintSpeed;
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+            moveSpeed = 5f;
+        }
+
+        // Si está en el suelo y está saltando, pero la velocidad en Y es negativa, desactivar isJumping
+        if (isGrounded && animator.GetBool("isJumping") && playerRigidbody.velocity.y <= 0.1f)
+        {
+            animator.SetBool("isJumping", false);
+        }
+
+        // Salto
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             ApplyJump();
+            animator.SetBool("isJumping", true);
+            isGrounded = false; // Forzar que el personaje deje de estar en el suelo inmediatamente después del salto
+            Debug.Log("is jumping");
+        }
+
+        if (moveDirection != Vector3.zero && isGrounded && moveSpeed > 5)
+        {
+            animator.SetBool("isRunning", true);
+        }
+        else if (moveDirection != Vector3.zero && isGrounded)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
         }
     }
 
