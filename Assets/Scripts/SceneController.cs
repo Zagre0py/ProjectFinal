@@ -44,4 +44,9 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene("Santiago");
         changeLvlScreen.SetActive(false);
     }
+
+    public void resetScene() 
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
