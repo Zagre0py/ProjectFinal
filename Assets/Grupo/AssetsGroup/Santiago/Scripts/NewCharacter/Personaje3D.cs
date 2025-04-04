@@ -1,105 +1,90 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Personaje3D : MonoBehaviour
 {
     public Rigidbody rb;
-    public float speed;
+    public float speed = 5f;
     public Animator anim;
     public Transform eje;
 
     public bool inground;
-    private RaycastHit hit;
-    public float distance;
+    public float distance = 0.2f;
     public Vector3 v3;
 
     public bool canMove = true;
-
-    private bool isDead = false; // Nueva variable de estado
-
+    private bool isDead = false;
 
     private void FixedUpdate()
     {
         Move();
     }
+
     void Move()
     {
-         if (!canMove) return;
+        // Si no puede moverse o está muerto, desactivar "Run" y salir
+        if (!canMove || isDead)
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0); // Mantener gravedad
+            anim.SetBool("Run", false);
+            return;
+        }
 
-        if (isDead) return; // Bloquear movimiento si está muerto
+        // Calcular dirección de movimiento
         Vector3 direction = Vector3.zero;
+        if (Input.GetKey(KeyCode.W)) direction += eje.forward;
+        if (Input.GetKey(KeyCode.S)) direction -= eje.forward;
+        if (Input.GetKey(KeyCode.D)) direction += eje.right;
+        if (Input.GetKey(KeyCode.A)) direction -= eje.right;
 
-        if (Input.GetKey(KeyCode.W)) direction += eje.transform.forward;
-        if (Input.GetKey(KeyCode.S)) direction -= eje.transform.forward;
-        if (Input.GetKey(KeyCode.D)) direction += eje.transform.right;
-        if (Input.GetKey(KeyCode.A)) direction -= eje.transform.right;
+        direction.y = 0; // Ignorar eje Y
 
-        direction.y = 0; // Asegura que la dirección es solo en el plano XZ
-
-        bool isMoving = direction != Vector3.zero;
-
-        if (isMoving)
+        // Normalizar y calcular velocidad
+        if (direction.magnitude > 0.1f)
         {
-            float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? speed * 2f : speed; // Sprint con Shift
-            MoveCharacter(direction.normalized, moveSpeed);
+            direction.Normalize();
+            float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? speed * 2f : speed;
+            rb.velocity = new Vector3(direction.x * moveSpeed, rb.velocity.y, direction.z * moveSpeed);
+            
+            // Rotación suave hacia la dirección de movimiento
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+            
+            anim.SetBool("Run", true); // Activar animación de correr
         }
-        else if (inground)
+        else
         {
-            rb.velocity = Vector3.zero;
+            // Si no hay input, detener movimiento en X/Z pero mantener gravedad
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            anim.SetBool("Run", false); // Desactivar animación de correr
         }
-
-        anim.SetBool("Run", isMoving);
-    }
-
-    void MoveCharacter(Vector3 direction, float moveSpeed)
-    {
-        float rotationSpeed = 10f; // Controla la suavidad de la rotación
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotationSpeed);
-
-        Vector3 velocity = direction * moveSpeed;
-        velocity.y = rb.velocity.y; // Mantiene la velocidad vertical
-        rb.velocity = velocity;
     }
 
     void Update()
     {
-        if (Physics.Raycast(transform.position + v3, transform.up * -1, out hit, distance))
-        {
-
-            if (hit.collider.tag == "piso")
-            {
-                inground = true;
-            }
-        }
-        else
-        {
-
-            inground = false;
-        }
+        // Verificar si está en el suelo
+        inground = Physics.Raycast(transform.position + v3, Vector3.down, distance);
     }
 
-    void ODrawGizmos()
+    void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position + v3, Vector3.up * -1 * distance);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position + v3, Vector3.down * distance);
     }
-
-    private bool movementLocked = false;
 
     public void SetMovementLock(bool locked)
     {
-        movementLocked = locked;
+        canMove = !locked;
         if (locked)
         {
-            // Detén cualquier movimiento inmediato
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            anim.SetBool("Run", false);
         }
     }
+
     public void OnDeath()
     {
         isDead = true;
-        rb.velocity = Vector3.zero; // Detener movimiento inmediato
-        anim.SetBool("Run", false); // Asegurar que la animación de correr se detenga
-
+        rb.velocity = Vector3.zero;
+        anim.SetBool("Run", false);
     }
 }
