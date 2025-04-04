@@ -11,12 +11,14 @@ public class Timer : MonoBehaviour
     [SerializeField] GameObject ArepaImg1;
     [SerializeField] GameObject ArepaImg2;
     [SerializeField] GameObject ArepaImg3;
+    [SerializeField] GameObject pantallaDerrota;
 
     bool itemCollected = false;
     private void Start()
     {
         ArepaImg2.SetActive(false);
         ArepaImg3.SetActive(false);
+        pantallaDerrota.SetActive(false);
     }
     private void Update()
     {
@@ -55,6 +57,7 @@ public class Timer : MonoBehaviour
         {
             remainingTime = 0;
             //GameOver()
+            pantallaDerrota.SetActive(true);
             timerText.color = Color.red;
             Debug.Log("Se quemó la arepa :c");
         }
