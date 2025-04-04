@@ -8,6 +8,7 @@ public class Player_Movement : MonoBehaviour
     private Vector3 currentPosition;
     private Vector3 lastPlatformPosition;
 
+
     public float moveDistance = 1f;
     public float moveSpeed = 5f;
 
@@ -45,16 +46,16 @@ public class Player_Movement : MonoBehaviour
         {
             rb.MovePosition(Vector3.MoveTowards(rb.position, currentPosition, moveSpeed * Time.fixedDeltaTime));
 
-            // Si está lo suficientemente cerca, ajusta la posición exacta y detiene el movimiento
+            // Si estï¿½ lo suficientemente cerca, ajusta la posiciï¿½n exacta y detiene el movimiento
             if (Vector3.Distance(rb.position, currentPosition) < 0.05f)
             {
-                rb.position = currentPosition; // Fija la posición exacta
+                rb.position = currentPosition; // Fija la posiciï¿½n exacta
                 isMoving = false;
 
-                // Se asegura de que la animación de salto no siga activa
+                // Se asegura de que la animaciï¿½n de salto no siga activa
                 animator.ResetTrigger("IsJumping");
 
-                // Se activa la animación de Idle inmediatamente al detenerse
+                // Se activa la animaciï¿½n de Idle inmediatamente al detenerse
                 animator.SetTrigger("IsIdle");
             }
         }
@@ -70,13 +71,14 @@ public class Player_Movement : MonoBehaviour
 
     void Move(Vector3 direction)
     {
-        if (isMoving) return; // Evita iniciar un nuevo movimiento mientras el jugador se está moviendo
+        if (isMoving) return; // Evita iniciar un nuevo movimiento mientras el jugador se estï¿½ moviendo
 
         currentPosition = rb.position + direction * moveDistance;
         isMoving = true;
 
-        // Se activa la animación de salto inmediatamente
+        // Se activa la animaciï¿½n de salto inmediatamente
         animator.SetTrigger("IsJumping");
+        AudioManager.instance.PlaySfx("SaltoTania");
         animator.ResetTrigger("IsIdle");
 
         // Si se mueve, se desvincula de la plataforma
@@ -97,11 +99,11 @@ public class Player_Movement : MonoBehaviour
             // Asegurar que el Rigidbody no sea kinematic
             if (rb.isKinematic) return;
 
-            // Obtener la dirección opuesta al contacto
+            // Obtener la direcciï¿½n opuesta al contacto
             Vector3 pushDirection = (transform.position - collision.contacts[0].point).normalized;
 
-            // Aplicar fuerza en la dirección opuesta
-            float pushForce = 30f; // Aumenta el valor si el empuje es muy débil
+            // Aplicar fuerza en la direcciï¿½n opuesta
+            float pushForce = 30f; // Aumenta el valor si el empuje es muy dï¿½bil
             rb.velocity = Vector3.zero; // Resetear la velocidad antes de aplicar la fuerza
             rb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
         }

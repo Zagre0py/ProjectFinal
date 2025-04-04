@@ -1,50 +1,111 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Audio; // Importar AudioMixer
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioMixer audioMixer; // Arrastrar el Audio Mixer desde el Inspector
-    public Slider sliderMusica;
-    public Slider sliderFX;
-    public GameObject panelSonido;
+    public static AudioManager instance;
+    public Sound[] musicSounds, sfxSounds;
+    public AudioSource musicSource, sfxSource;
+    
+    // Nombres de las canciones entre las que quieres elegir al inicio
+    public string[] initialMusicOptions = {"Menu01", "Menu02"}; // Añade más si necesitas
 
-    void Start()
+    void Awake()
     {
-        // Cargar valores guardados (Por defecto en 1)
-        sliderMusica.value = PlayerPrefs.GetFloat("volumenMusica", 1f);
-        sliderFX.value = PlayerPrefs.GetFloat("volumenFX", 1f);
-
-        // Aplicar el volumen inicial
-        CambiarVolumenMusica(sliderMusica.value);
-        CambiarVolumenFX(sliderFX.value);
-
-        // Eventos de los sliders
-        sliderMusica.onValueChanged.AddListener(CambiarVolumenMusica);
-        sliderFX.onValueChanged.AddListener(CambiarVolumenFX);
-
-        // Ocultar el panel de sonido al inicio
-        panelSonido.SetActive(false);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void CambiarVolumenMusica(float volumen)
+    private void Start()
     {
-        float volumenDB = Mathf.Log10(volumen) * 20;
-        audioMixer.SetFloat("VolumenMusica", volumenDB);
-        PlayerPrefs.SetFloat("volumenMusica", volumen);
+        // Selecciona y reproduce una canción aleatoria al inicio
+        PlayRandomInitialMusic();
+        
+        // Suscribirse al evento de carga de escenas
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += EscenaPerdiste;
+        SceneManager.sceneLoaded += EscenaVictoria;
     }
 
-    public void CambiarVolumenFX(float volumen)
+    // Método para reproducir música inicial aleatoria
+    private void PlayRandomInitialMusic()
     {
-        float volumenDB = Mathf.Log10(volumen) * 20;
-        audioMixer.SetFloat("VolumenFX", volumenDB);
-        PlayerPrefs.SetFloat("volumenFX", volumen);
+        if (initialMusicOptions.Length == 0) return;
+        
+        int randomIndex = UnityEngine.Random.Range(0, initialMusicOptions.Length);
+        string selectedMusic = initialMusicOptions[randomIndex];
+        PlayMusic(selectedMusic);
     }
 
-    // M�todo para activar/desactivar el panel
-    public void MostrarPanelSonido()
+    // Resto de tus métodos permanecen igual...
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        panelSonido.SetActive(!panelSonido.activeSelf);
+        if (scene.name == "Tania")
+        {
+            PlayMusic("Nivel1");
+        }
+        if(scene.name == "Chacho")
+        {
+            PlayMusic("Nivel2");
+        }
+        if(scene.name == "Santiago")
+        {
+            PlayMusic("Nivel3");
+        }
+    }
+    
+    private void EscenaPerdiste(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameOver")
+        {
+            PlayMusic("Theme01");
+        }
+    }
+    
+    private void EscenaVictoria(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameVictory")
+        {
+            PlayMusic("Theme01");
+        }
+    }
+
+    public void PlayMusic(string name)
+    {
+        Sound s = Array.Find(musicSounds, x => x.name == name);
+
+        if (s == null)
+        {
+            Debug.Log("Sound not found");
+        }
+        else
+        {
+            musicSource.clip = s.clip;
+            musicSource.Play();
+        }
+    }
+
+    public void PlaySfx(string name)
+    {
+        Sound s = Array.Find(sfxSounds, x => x.name == name);
+
+        if (s == null)
+        {
+            Debug.Log("Sound not found");
+        }
+        else
+        {
+            sfxSource.PlayOneShot(s.clip);
+        }
     }
 }
-

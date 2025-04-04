@@ -82,6 +82,7 @@ public class PlayerCombat : MonoBehaviour
         // Disparar animación
         string triggerName = "Attack" + currentCombo;
         animator.ResetTrigger("Attack" + (currentCombo - 1)); // Limpiar trigger anterior
+
         animator.SetTrigger(triggerName);
         animator.SetInteger("ComboPhase", currentCombo);
 
