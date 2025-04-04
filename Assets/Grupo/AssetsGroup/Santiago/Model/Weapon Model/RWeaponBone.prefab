@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 45815017279187770}
   - component: {fileID: 2895358255559503150}
   - component: {fileID: 8902287433141039355}
+  - component: {fileID: 6817873189980260143}
   m_Layer: 0
   m_Name: Spatula
-  m_TagString: PlayerWeapon
+  m_TagString: Arm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105,6 +106,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 35.40373, y: 0.91647905, z: 11.242233}
   m_Center: {x: -16.701849, y: -0.24937446, z: -0.000028531207}
+--- !u!114 &6817873189980260143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519913047830429195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaa32845581a9c4469fa52f681b6bcb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 55
+  Boss: {fileID: 0}
 --- !u!1 &1767249021784698378
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +163,7 @@ GameObject:
   - component: {fileID: 5499038100076343440}
   m_Layer: 0
   m_Name: RWeaponBone
-  m_TagString: Untagged
+  m_TagString: Arm
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
