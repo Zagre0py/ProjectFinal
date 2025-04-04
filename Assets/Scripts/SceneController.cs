@@ -1,15 +1,13 @@
-using System;
 using UnityEngine;
-using static GameManager;
 using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    [SerializeField] GameObject changeLvlScreen;
+    [SerializeField] GameObject pauseMenu;
 
     private void Start()
     {
-        changeLvlScreen.SetActive(false);
+        pauseMenu.SetActive(false);
     }
 
     private void Update()
@@ -17,32 +15,32 @@ public class SceneController : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.P))
         {
             Debug.Log("click");
-            changeLvlScreen.SetActive(true);
+            pauseMenu.SetActive(true);
         }
     }
 
     public void goMenu()
    {
         SceneManager.LoadScene("UI");
-        changeLvlScreen.SetActive(false) ;
+        pauseMenu.SetActive(false) ;
    }
     public void Level1Change()
     {
         Debug.Log("click");
         SceneManager.LoadScene("Tania");
-        changeLvlScreen.SetActive(false);
+        pauseMenu.SetActive(false);
     }
     public void Level2Change()
     {
         Debug.Log("click");
         SceneManager.LoadScene("Chacho");
-        changeLvlScreen.SetActive(false);
+        pauseMenu.SetActive(false);
     }
     public void Level3Change()
     {
         Debug.Log("click");
         SceneManager.LoadScene("Santiago");
-        changeLvlScreen.SetActive(false);
+        pauseMenu.SetActive(false);
     }
 
     public void resetScene() 
