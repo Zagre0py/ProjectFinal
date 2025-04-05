@@ -146,6 +146,13 @@ public class PhysicsMovement : MonoBehaviour
             player.position = originalPlayerPosition;
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Terrain"))
+        {
+            player.position = originalPlayerPosition;
+        }     
+    }
 
     void ApplyJump()
     {
