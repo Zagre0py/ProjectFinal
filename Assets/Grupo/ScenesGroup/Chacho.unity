@@ -210,6 +210,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87b548ed91ab434b9d2b662c2635381, type: 3}
+--- !u!1 &8907661
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8907662}
+  - component: {fileID: 8907663}
+  m_Layer: 9
+  m_Name: Cube (mountain) (5)
+  m_TagString: Terrain
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8907662
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8907661}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32.47, y: 17.68, z: 42.48}
+  m_LocalScale: {x: 19.235622, y: 60.590202, z: 7.3065}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1458313220}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &8907663
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8907661}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &11800404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2174,9 +2227,9 @@ GameObject:
   m_Component:
   - component: {fileID: 182347798}
   - component: {fileID: 182347799}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (mountain) (1)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2190,8 +2243,8 @@ Transform:
   m_GameObject: {fileID: 182347797}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.32, y: 20.6, z: 43.07}
-  m_LocalScale: {x: 15.049776, y: 38.499725, z: 1}
+  m_LocalPosition: {x: 21.8, y: 20.6, z: 37.36}
+  m_LocalScale: {x: 32.06724, y: 38.499725, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1458313220}
@@ -4458,7 +4511,7 @@ Transform:
   m_GameObject: {fileID: 390895109}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2746544, y: 5, z: 12.107357}
+  m_LocalPosition: {x: 5.274654, y: 5, z: 12.107357}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7425,8 +7478,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774220551}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.098734885, y: 0.89446926, z: -0.24463008, w: -0.36101577}
-  m_LocalPosition: {x: 0.00000047683716, y: 0, z: 0}
+  m_LocalRotation: {x: -0.020000389, y: 0.9799961, z: -0.14133474, w: -0.13868}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7987,9 +8040,9 @@ GameObject:
   - component: {fileID: 854641793}
   - component: {fileID: 854641792}
   - component: {fileID: 854641791}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (floor) (4)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8838,9 +8891,9 @@ GameObject:
   - component: {fileID: 972712445}
   - component: {fileID: 972712444}
   - component: {fileID: 972712443}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (floor) (3)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9212,9 +9265,9 @@ GameObject:
   - component: {fileID: 980572822}
   - component: {fileID: 980572821}
   - component: {fileID: 980572820}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (floor) (5)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11039,8 +11092,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132819254}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0987349, y: 0.8944692, z: -0.24463007, w: -0.36101586}
-  m_LocalPosition: {x: 6.12058, y: 5, z: 6.2546067}
+  m_LocalRotation: {x: -0.02000039, y: 0.9799961, z: -0.14133473, w: -0.13868007}
+  m_LocalPosition: {x: 5.274654, y: 5, z: 12.107357}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12025,9 +12078,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1248254805}
   - component: {fileID: 1248254806}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (mountain) (3)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14131,6 +14184,7 @@ Transform:
   - {fileID: 1488951070}
   - {fileID: 1248254805}
   - {fileID: 1963366961}
+  - {fileID: 8907662}
   - {fileID: 1664751494}
   - {fileID: 1894900717}
   - {fileID: 1484758203}
@@ -14326,9 +14380,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1470695834}
   - component: {fileID: 1470695835}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (mountain)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14496,9 +14550,9 @@ GameObject:
   - component: {fileID: 1484758202}
   - component: {fileID: 1484758201}
   - component: {fileID: 1484758200}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (floor) (2)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14705,9 +14759,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1488951070}
   - component: {fileID: 1488951071}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (mountain) (2)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15200,8 +15254,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1560667000}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.092169285, y: 0.89875996, z: -0.22836283, w: -0.36274755}
-  m_LocalPosition: {x: 0.00000047683716, y: 0, z: 0}
+  m_LocalRotation: {x: -0.017481243, y: 0.98239887, z: -0.12353292, w: -0.13902007}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16396,9 +16450,9 @@ GameObject:
   - component: {fileID: 1664751493}
   - component: {fileID: 1664751492}
   - component: {fileID: 1664751491}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (floor)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16483,8 +16537,8 @@ Transform:
   m_GameObject: {fileID: 1664751490}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 35.75, y: 5.25, z: 2.08}
-  m_LocalScale: {x: 53.165283, y: 10.57587, z: 4.8953204}
+  m_LocalPosition: {x: 35.75, y: 18.73, z: 2.08}
+  m_LocalScale: {x: 53.165283, y: 43.392574, z: 4.8953204}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1458313220}
@@ -17738,6 +17792,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809406034}
   m_CullTransparentMesh: 1
+--- !u!1 &1811476901 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8481782420867978629, guid: 55bae89a8c1e38a4889be143d019443f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3754173647532093222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1811476906
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811476901}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.02
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &1813927186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18782,9 +18863,9 @@ GameObject:
   - component: {fileID: 1894900716}
   - component: {fileID: 1894900715}
   - component: {fileID: 1894900714}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (floor) (1)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19705,9 +19786,9 @@ GameObject:
   - component: {fileID: 1963366964}
   - component: {fileID: 1963366963}
   - component: {fileID: 1963366962}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (mountain) (4)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20644,9 +20725,9 @@ GameObject:
   - component: {fileID: 2094249703}
   - component: {fileID: 2094249702}
   - component: {fileID: 2094249701}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube (floor) (6)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20814,8 +20895,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113821110}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.105285265, y: 0.88987154, z: -0.2608596, w: -0.3591601}
-  m_LocalPosition: {x: 0.00000047683716, y: 0, z: 0}
+  m_LocalRotation: {x: -0.022519598, y: 0.97726315, z: -0.15913698, w: -0.13829328}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21190,7 +21271,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8481782420867978629, guid: 55bae89a8c1e38a4889be143d019443f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1811476906}
   m_SourcePrefab: {fileID: 100100000, guid: 55bae89a8c1e38a4889be143d019443f, type: 3}
 --- !u!4 &6230280905256027028 stripped
 Transform:
@@ -21212,20 +21297,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 641426568}
     m_Modifications:
-    - target: {fileID: 1821297528755092538, guid: 43f43facead7ee04fa8cbb8532ec3549,
-        type: 3}
-      propertyPath: m_MaterialTemplate
-      value: 
-      objectReference: {fileID: 2100000, guid: c2ce54824844269469ca7d039836d0c6, type: 2}
     - target: {fileID: 7998841309922743700, guid: 43f43facead7ee04fa8cbb8532ec3549,
         type: 3}
       propertyPath: m_Name
       value: Mountain Terrain
-      objectReference: {fileID: 0}
-    - target: {fileID: 7998841309922743700, guid: 43f43facead7ee04fa8cbb8532ec3549,
-        type: 3}
-      propertyPath: m_Layer
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9167469159042968381, guid: 43f43facead7ee04fa8cbb8532ec3549,
         type: 3}

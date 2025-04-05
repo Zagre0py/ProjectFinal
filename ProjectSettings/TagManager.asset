@@ -12,6 +12,7 @@ TagManager:
   - PlayerWeapon
   - Boss
   - Arm
+  - Terrain
   layers:
   - Default
   - TransparentFX
