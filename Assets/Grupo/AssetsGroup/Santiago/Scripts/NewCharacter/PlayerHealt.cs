@@ -1,6 +1,6 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 
 public class PlayerHealth : MonoBehaviour
@@ -9,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
     public int vidaPlayer;
     public Slider vidaVisual;
     public Animator anim;
+    public SceneController sceneController;
 
     void Start()
     {
@@ -28,7 +29,13 @@ public class PlayerHealth : MonoBehaviour
             GetComponent<Personaje3D>().OnDeath();
 
             anim.SetBool("IsDead", true);
+            Invoke("CargarEscenaDerrota", 3);
             Debug.Log("Se acabo");
         }
+    }
+
+    void CargarEscenaDerrota()
+    {
+        sceneController.cargarDerrota();
     }
 }

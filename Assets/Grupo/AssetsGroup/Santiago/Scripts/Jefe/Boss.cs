@@ -31,6 +31,9 @@ public class BossController : MonoBehaviour
     private float attackCooldown;
     private bool isPhase2 = false;
 
+    public SceneController sceneController;
+
+
     void Start()
     {
         playerHealth = GetComponent<PlayerHealth>();
@@ -145,8 +148,14 @@ public class BossController : MonoBehaviour
     if(vida <= 0){
 
         Die();
+            Invoke("CagarVictoria", 3);
     }
    }
+
+    void CagarVictoria()
+    {
+        sceneController.cargarVictoria();
+    }
 
     // Llamar desde Animation Events
     public void EnableNormalAttack() => normalAttackCollider.enabled = true;

@@ -31,12 +31,16 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
-        if (!isMoving && (inPlatform || inFloor))
+        // Solo permitimos movimiento si el estado actual es Playing
+        if (GameManager.Instance != null && GameManager.Instance.EsEstado(GameManager.GameState.Playing))
         {
-            if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.forward);
-            if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.back);
-            if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left);
-            if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right);
+            if (!isMoving && (inPlatform || inFloor))
+            {
+                if (Input.GetKeyDown(KeyCode.W)) Move(Vector3.forward);
+                if (Input.GetKeyDown(KeyCode.S)) Move(Vector3.back);
+                if (Input.GetKeyDown(KeyCode.A)) Move(Vector3.left);
+                if (Input.GetKeyDown(KeyCode.D)) Move(Vector3.right);
+            }
         }
     }
 
