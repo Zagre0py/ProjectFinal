@@ -10,63 +10,56 @@ public class AudioManager : MonoBehaviour
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
     
-    // Nombres de las canciones entre las que quieres elegir al inicio
-    public string[] initialMusicOptions = {"Menu01", "Menu02"}; // Añade más si necesitas
 
-    void Awake()
+  void Awake()
+{
+    if (instance == null)
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private void Start()
-    {
-        // Selecciona y reproduce una canción aleatoria al inicio
-        PlayRandomInitialMusic();
+        instance = this;
+        DontDestroyOnLoad(gameObject);
         
-        // Suscribirse al evento de carga de escenas
+        // Suscribir los eventos
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneLoaded += EscenaPerdiste;
         SceneManager.sceneLoaded += EscenaVictoria;
     }
-
-    // Método para reproducir música inicial aleatoria
-    private void PlayRandomInitialMusic()
+    else
     {
-        if (initialMusicOptions.Length == 0) return;
-        
-        int randomIndex = UnityEngine.Random.Range(0, initialMusicOptions.Length);
-        string selectedMusic = initialMusicOptions[randomIndex];
-        PlayMusic(selectedMusic);
+        Destroy(gameObject);
     }
+}
+   
 
-    // Resto de tus métodos permanecen igual...
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+{
+    // Detener siempre la música actual primero
+    musicSource.Stop();
+    
+    // Reproducir música según la escena
+    switch(scene.name)
     {
-        if (scene.name == "Tania")
-        {
+        case "UI":
+            PlayMusic("UI");
+            break;
+        case "Tania":
             PlayMusic("Nivel1");
-        }
-        if(scene.name == "Chacho")
-        {
+            break;
+        case "Chacho":
             PlayMusic("Nivel2");
-        }
-        if(scene.name == "Santiago")
-        {
+            break;
+        case "Santiago":
             PlayMusic("Nivel3");
-        }
+            break;
+        default:
+            // Opcional: música por defecto para escenas no listadas
+            break;
     }
+}
     
     private void EscenaPerdiste(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "GameOver")
+        if (scene.name == "Derrota")
         {
             PlayMusic("Theme01");
         }
@@ -74,7 +67,7 @@ public class AudioManager : MonoBehaviour
     
     private void EscenaVictoria(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "GameVictory")
+        if (scene.name == "Victoria")
         {
             PlayMusic("Theme01");
         }

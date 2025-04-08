@@ -196,13 +196,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 2353850222968183856}
   m_HandleRect: {fileID: 2142787919611747901}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8428883301258195224}
+        m_TargetAssemblyTypeName: VolumeSetting, Assembly-CSharp
+        m_MethodName: SetSFXVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1532485764909765177
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,6 +793,7 @@ GameObject:
   - component: {fileID: 6736238720879925712}
   - component: {fileID: 1089572434110093004}
   - component: {fileID: 2747767115731145647}
+  - component: {fileID: 8428883301258195224}
   m_Layer: 5
   m_Name: Canvas_UI_Menu_Pausa
   m_TagString: Untagged
@@ -876,6 +889,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8428883301258195224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4070155998032354988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f29b3c25a238fa469197f49bf13c92c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myMixer: {fileID: 24100000, guid: 58a918ff716e6c64e8f0a3fbfe27a4f5, type: 2}
+  musicSlider: {fileID: 7455268422069074549}
+  sfxSlider: {fileID: 6864494288413651871}
 --- !u!1 &4083597421925923633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,13 +1753,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 6607119452251409791}
   m_HandleRect: {fileID: 5465863413424454658}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 0.0001
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8428883301258195224}
+        m_TargetAssemblyTypeName: VolumeSetting, Assembly-CSharp
+        m_MethodName: SetMusicVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8963274378170371690
 GameObject:
   m_ObjectHideFlags: 0
