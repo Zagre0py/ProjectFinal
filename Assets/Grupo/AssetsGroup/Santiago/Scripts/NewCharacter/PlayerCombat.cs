@@ -1,128 +1,144 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
 
+[RequireComponent(typeof(Animator), typeof(PlayerInput))]
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Combo Settings")]
-    [SerializeField] private float comboWindow = 0.5f; // Tiempo entre ataques para combo
-    [SerializeField] private int maxComboHits = 3;     // Máximo de golpes en combo
-    [SerializeField] private float inputBufferTime = 0.3f; // Tiempo para almacenar inputs
+    [SerializeField] private int maxComboHits = 3;
+    [SerializeField] private float comboWindow = 0.5f;
+    [SerializeField] private float inputBufferTime = 0.2f;
 
-    // Componentes
+    // Component references
     private Animator animator;
     private PlayerInput playerInput;
-    private InputAction attackAction;
-
-    // Variables de estado
-    private int currentCombo = 0;
-    private float lastAttackTime = 0;
-    private float lastInputTime = 0;
-    private bool isAttacking = false;
-    private bool bufferedInput = false;
     
+    // State variables
+    private int currentCombo = 0;
+    private bool isAttacking = false;
+    private bool canAcceptComboInput = false;
+    private bool inputBuffered = false;
+    private float lastInputTime = 0;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
-        attackAction = playerInput.actions["Attack"];
     }
 
     private void OnEnable()
     {
-        attackAction.performed += OnAttackPerformed;
+        playerInput.actions["Attack"].started += OnAttackInput;
     }
 
     private void OnDisable()
     {
-        attackAction.performed -= OnAttackPerformed;
-    }
-
-    private void OnAttackPerformed(InputAction.CallbackContext context)
-    {
-        lastInputTime = Time.time;
-
-        if (animator.GetBool("CanCombo") || !isAttacking)
-        {
-            TryAttack();
-        }
-        else
-        {
-            StartCoroutine(BufferInput());
-        }
+        playerInput.actions["Attack"].started -= OnAttackInput;
     }
 
     private void Update()
     {
-        // Input buffer para combos fluidos
-        if (bufferedInput && animator.GetBool("CanCombo"))
+        HandleBufferedInput();
+        CheckComboReset();
+    }
+
+    private void OnAttackInput(InputAction.CallbackContext context)
+    {
+        lastInputTime = Time.time;
+        
+        if (!isAttacking)
         {
-            TryAttack();
-            bufferedInput = false;
+            StartCombo();
+        }
+        else if (canAcceptComboInput)
+        {
+            ExecuteNextCombo();
+        }
+        else
+        {
+            BufferInput();
         }
     }
 
-    private IEnumerator BufferInput()
+    private void StartCombo()
     {
-        bufferedInput = true;
-        yield return new WaitForSeconds(inputBufferTime);
-        bufferedInput = false;
-    }
-
-    private void TryAttack()
-    {
-        // Cancelar reset pendiente
-        StopAllCoroutines();
-
-        // Actualizar estado del combo
-        lastAttackTime = Time.time;
-        currentCombo = Mathf.Clamp(currentCombo + 1, 1, maxComboHits);
-
-        // Disparar animación
-        string triggerName = "Attack" + currentCombo;
-        animator.ResetTrigger("Attack" + (currentCombo - 1)); // Limpiar trigger anterior
-
-        animator.SetTrigger(triggerName);
+        currentCombo = 1;
+        isAttacking = true;
+        
+        animator.ResetTrigger("AnyAttack");
+        animator.SetTrigger("Attack1");
         animator.SetInteger("ComboPhase", currentCombo);
-
-        Debug.Log($"Ejecutando: {triggerName}");
-
-        // Iniciar corrutina para resetear combo si no hay input
-        StartCoroutine(ComboResetCoroutine());
     }
 
-    private IEnumerator ComboResetCoroutine()
+    private void ExecuteNextCombo()
     {
-        yield return new WaitForSeconds(comboWindow);
+        currentCombo++;
+        inputBuffered = false;
+        
+        animator.ResetTrigger("AnyAttack");
+        animator.SetTrigger("Attack" + currentCombo);
+        animator.SetInteger("ComboPhase", currentCombo);
+    }
 
-        // Solo resetear si no hubo nuevos ataques
-        if (Time.time - lastAttackTime >= comboWindow)
+    private void BufferInput()
+    {
+        if (currentCombo < maxComboHits)
         {
-            currentCombo = 0;
-            animator.SetInteger("ComboPhase", 0);
-            Debug.Log("Combo reseteado");
+            inputBuffered = true;
+            Invoke(nameof(ClearBufferedInput), inputBufferTime);
         }
     }
 
-    // Llamado desde Animation Event al 80% de cada animación
-    public void EnableComboWindow()
+    private void ClearBufferedInput()
     {
-        animator.SetBool("CanCombo", true);
-        Debug.Log("Ventana de combo activada");
+        inputBuffered = false;
     }
 
-    // Llamado desde Animation Event al final de cada animación
-    public void FinishAttack()
+    private void HandleBufferedInput()
     {
-        animator.SetBool("CanCombo", false);
-        isAttacking = false;
-
-        // Resetear si es el último ataque del combo
-        if (currentCombo == maxComboHits)
+        if (inputBuffered && canAcceptComboInput)
         {
-            currentCombo = 0;
-            animator.SetInteger("ComboPhase", 0);
+            ExecuteNextCombo();
+        }
+    }
+
+    private void CheckComboReset()
+    {
+        if (isAttacking && Time.time - lastInputTime > comboWindow)
+        {
+            ResetCombo();
+        }
+    }
+
+    private void ResetCombo()
+    {
+        currentCombo = 0;
+        isAttacking = false;
+        inputBuffered = false;
+        animator.SetInteger("ComboPhase", 0);
+    }
+
+    // Animation Events
+    public void OpenComboWindow()
+    {
+        canAcceptComboInput = true;
+        
+        if (inputBuffered)
+        {
+            ExecuteNextCombo();
+        }
+    }
+
+    public void CloseComboWindow()
+    {
+        canAcceptComboInput = false;
+    }
+
+    public void OnAttackEnd()
+    {
+        if (currentCombo >= maxComboHits)
+        {
+            ResetCombo();
         }
     }
 }
