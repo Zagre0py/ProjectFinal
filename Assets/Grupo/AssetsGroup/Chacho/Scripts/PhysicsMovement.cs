@@ -14,20 +14,23 @@ public class PhysicsMovement : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private Vector3 moveDirection;
+    public Transform player;
+    private Vector3 originalPlayerPosition = new Vector3(4f, 0.025f, 4f);
 
     [Header ("Ground Check")]
     public bool isGrounded;
     public float groundCheckDistance;
     public LayerMask floorMask;
     Vector3 groundCheckPosition;
+    public LayerMask terrainMask;
+    public bool outOfBoundaries;
+    Vector3 boundaryCheck;
 
     [Header("Camara")]
     public Transform cameraTransform; //Referencia a la camara principal
     
     void Start()
     {
-        //groundCheckDistance = (GetComponent<CapsuleCollider>().height / 2);
-
         playerRigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
@@ -53,6 +56,7 @@ public class PhysicsMovement : MonoBehaviour
     void FixedUpdate()
     {
         CheckGrounded();
+        CheckBoundaries();
         ApplyPhysicsMovement();
     }
 
@@ -131,6 +135,25 @@ public class PhysicsMovement : MonoBehaviour
         isGrounded = Physics.OverlapSphere(groundCheckPosition, 0.3f, floorMask).Length > 0;
     }
 
+    void CheckBoundaries()
+    {
+        boundaryCheck = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+
+        outOfBoundaries = Physics.OverlapSphere(boundaryCheck, 0.05f, terrainMask).Length > 0;
+
+        if (outOfBoundaries)
+        {
+            player.position = originalPlayerPosition;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Terrain"))
+        {
+            player.position = originalPlayerPosition;
+        }     
+    }
+
     void ApplyJump()
     {
         //Usamos metodo AddForce en Rigidbody para aplicar una fuerza vertical con modo de Impulso
@@ -157,5 +180,6 @@ public class PhysicsMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(groundCheckPosition, 0.3f);
+        Gizmos.DrawSphere(boundaryCheck, 0.05f);
     }
 }

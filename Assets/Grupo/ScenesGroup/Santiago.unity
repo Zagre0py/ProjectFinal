@@ -252,7 +252,7 @@ Terrain:
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 1000
   m_DetailObjectDensity: 1
-  m_HeightmapPixelError: 5
+  m_HeightmapPixelError: 1
   m_SplatMapDistance: 1000
   m_HeightmapMinimumLODSimplification: 0
   m_HeightmapMaximumLOD: 0
@@ -272,8 +272,8 @@ Terrain:
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
   m_RenderingLayerMask: 4294967294
-  m_AllowAutoConnect: 1
-  m_EnableHeightmapRayTracing: 1
+  m_AllowAutoConnect: 0
+  m_EnableHeightmapRayTracing: 0
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
 --- !u!4 &70205682
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Nombre exotico de un jefe final
+  m_text: The Last Arepa
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1170,6 +1170,11 @@ PrefabInstance:
         type: 3}
       propertyPath: comboWindow
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 265846195383093601, guid: 3a6e5f254dab6784a8c22e776cb68d18,
+        type: 3}
+      propertyPath: inputBufferTime
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 372638460791024117, guid: 3a6e5f254dab6784a8c22e776cb68d18,
         type: 3}
@@ -4901,6 +4906,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 03a8463d13a12a144a6dcf638372ff79, type: 2}
+    - target: {fileID: 444867245520039948, guid: f45cd3c105209af44addf62d2be1906c,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.2821131
+      objectReference: {fileID: 0}
+    - target: {fileID: 444867245520039948, guid: f45cd3c105209af44addf62d2be1906c,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.022351742
+      objectReference: {fileID: 0}
     - target: {fileID: 1520938716271076301, guid: f45cd3c105209af44addf62d2be1906c,
         type: 3}
       propertyPath: m_Name
