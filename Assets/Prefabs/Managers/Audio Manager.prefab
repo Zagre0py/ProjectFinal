@@ -57,6 +57,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: c3a450e891bcfee49ae6cacb79b6a6ff, type: 3}
   - name: Nivel3
     clip: {fileID: 8300000, guid: d004748b595649c4c88740513b5b198f, type: 3}
+  - name: Nivel3
+    clip: {fileID: 8300000, guid: d004748b595649c4c88740513b5b198f, type: 3}
+  - name: UI
+    clip: {fileID: 8300000, guid: a89659cdd4b76144792dccc4fa545cb4, type: 3}
   sfxSounds:
   - name: SaltoTania
     clip: {fileID: 8300000, guid: 3917986140ec3d44891c727335eb7a3c, type: 3}

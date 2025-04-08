@@ -3867,6 +3867,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Audio Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 4904655494256214286, guid: 19c6fbc957dd7794abbc95b32fa3602c,
+        type: 3}
+      propertyPath: musicSounds.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4904655494256214286, guid: 19c6fbc957dd7794abbc95b32fa3602c,
+        type: 3}
+      propertyPath: musicSounds.Array.data[4].name
+      value: Nivel3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4904655494256214286, guid: 19c6fbc957dd7794abbc95b32fa3602c,
+        type: 3}
+      propertyPath: musicSounds.Array.data[5].name
+      value: Victoria
+      objectReference: {fileID: 0}
+    - target: {fileID: 4904655494256214286, guid: 19c6fbc957dd7794abbc95b32fa3602c,
+        type: 3}
+      propertyPath: musicSounds.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d004748b595649c4c88740513b5b198f, type: 3}
+    - target: {fileID: 4904655494256214286, guid: 19c6fbc957dd7794abbc95b32fa3602c,
+        type: 3}
+      propertyPath: musicSounds.Array.data[6].name
+      value: Derrota
+      objectReference: {fileID: 0}
     - target: {fileID: 7403227239487079251, guid: 19c6fbc957dd7794abbc95b32fa3602c,
         type: 3}
       propertyPath: m_LocalPosition.x
