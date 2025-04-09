@@ -7,6 +7,11 @@ public class ItemPickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(SceneManager.GetActiveScene().name == "UI")
+        {
+            index = 0;
+        }
+
         if (other.CompareTag("Player"))
         {
             Debug.Log("El objeto fue recogido por el jugador");
