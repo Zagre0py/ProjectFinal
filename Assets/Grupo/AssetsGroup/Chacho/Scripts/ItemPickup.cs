@@ -9,7 +9,7 @@ public class ItemPickup : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().name == "UI")
         {
-            index = 0;
+            index = 2;
         }
 
         if (other.CompareTag("Player"))
